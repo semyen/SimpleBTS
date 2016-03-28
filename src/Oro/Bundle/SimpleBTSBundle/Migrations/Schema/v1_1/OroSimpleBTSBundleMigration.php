@@ -1,6 +1,6 @@
 <?php
 
-namespace OroCRM\Bundle\AccountBundle\Migrations\Schema\v1_0;
+namespace OroCRM\Bundle\AccountBundle\Migrations\Schema\v1_1;
 
 use Doctrine\DBAL\Schema\Schema;
 
@@ -25,6 +25,7 @@ class OroSimpleBTSBundleMigration implements Migration, NoteExtensionAwareInterf
 
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function up(Schema $schema, QueryBag $queries)
     {

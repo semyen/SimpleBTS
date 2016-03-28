@@ -11,11 +11,13 @@ composer.lock
 /web/bundles
 /web/css
 /web/js
+/web/logs
 /web/uploads/users/*
 /web/media/cache
 /web/build.js
 /app/config/parameters.yml
 /app/config/parameters_test.yml
+clean*
 *~
 
 /app/SymfonyRequirements.php
