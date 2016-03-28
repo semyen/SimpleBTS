@@ -1,0 +1,5 @@
+workflows:
+    simple_bts_issue_workflow:
+        attributes:
+            resolution:
+                property_path: issue.resolution

@@ -1,0 +1,20 @@
+workflows:
+    simple_bts_issue_workflow:
+        transition_definitions:
+            open_definition: ~
+            start_progress_definition: ~
+            stop_progress_definition:
+                pre_conditions:
+                    @equal: [$status, "in_progress"]
+            resolve_definition:
+                pre_conditions:
+                    @equal: [$status, "in_progress"]
+                conditions:
+                    @not_blank: [resolution]
+            reopen_definition:
+                post_actions:
+                    - @assign_value: [resolution, ~]
+            close_definition:
+                pre_conditions:
+                    @equal: [$status, "resolved"]
+

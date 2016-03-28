@@ -1,0 +1,38 @@
+oro:
+    simplebts:
+        issue:
+            entity_label: Issue
+            assignee.label: Assignee
+            children.label: Children
+            code.label: Code
+            collaborators.label: Collaborators
+            created.label: Created
+            description.label: Description
+            id.label: Id
+            notes.label: Notes
+            organization.label: Organization
+            owner.label: Owner
+            parent.label: Parent
+            priority.label: Priority
+            related_issues.label: Related Issues
+            reporter.label: Reporter
+            resolution.label: Resolution
+            status.label: Status
+            summary.label: Summary
+            tags.label: Tags
+            type.label: Type
+            updated.label: Updated
+            workflow_item.label: Workflow Item
+            workflow_step.label: Workflow Step
+        issuepriority:
+            entity_label: Issue Priority
+            id.label: Id
+            name.label: Name
+        issueresolution:
+            entity_label: Issue Resolution
+            id.label: Id
+            name.label: Name
+        issuetype:
+            entity_label: Issue Type
+            id.label: Id
+            name.label: Name
