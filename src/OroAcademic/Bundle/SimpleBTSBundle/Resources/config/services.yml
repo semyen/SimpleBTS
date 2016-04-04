@@ -1,0 +1,17 @@
+parameters:
+    oro_academic_sbts.issue.repository.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\Repository\IssueRepository
+    oro_academic_sbts.issue.event.listener.class: OroAcademic\Bundle\SimpleBTSBundle\EventListener\IssueEventListener
+
+services:
+    oro_academic_sbts.issue.repository:
+        class: '%oro_academic_sbts.issue.repository.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    oro_academic_sbts.issue.event.listener:
+            class: '%oro_academic_sbts.issue.event.listener.class%'
+            arguments:
+                - '@service_container'
+            tags:
+                - { name: doctrine.event_listener, event: onFlush }
+                - { name: doctrine.event_listener, event: postFlush }

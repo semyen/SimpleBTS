@@ -1,0 +1,4 @@
+oro_academic_sbts:
+    resource: "@OroAcademicSimpleBTSBundle/Controller"
+    type:     annotation
+    prefix:   /issue

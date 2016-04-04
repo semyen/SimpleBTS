@@ -1,0 +1,81 @@
+{% extends 'OroUIBundle:actions:update.html.twig' %}
+{% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
+
+{% oro_title_set({params : {"%issueCode%": issue.code, "%issueName%": 'oro.simplebts.issue.issue_label'|trans }}) %}
+{% set issueId = issue.id %}
+
+{% block navButtons %}
+    {{ UI.buttonSeparator() }}
+
+    {% set html = UI.saveAndCloseButton() %}
+    {% if resource_granted('oro_bug_tracking_system_issue_update') %}
+        {% set html = html ~ UI.saveAndStayButton() %}
+    {% endif %}
+    {{ UI.dropdownSaveButton({'html': html}) }}
+    {{ UI.cancelButton(path('oro_academic_sbts_issue_index')) }}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+    {% if issueId %}
+        {% set breadcrumbs = {
+            'issue': issue,
+            'indexPath': path('oro_academic_sbts_issue_index'),
+            'indexLabel': 'oro.simplebts.issue.issue_plural_label'|trans,
+            'issueTitle': issue.code
+        } %}
+        {{ parent() }}
+    {% else %}
+        {% set title = 'oro.ui.create_issue'|trans({'%issueName%': 'oro.simplebts.issue.issue_label'|trans}) %}
+        {% include 'OroUIBundle::page_title_block.html.twig' with { title: title } %}
+    {% endif %}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set id = 'issue-form' %}
+
+    {% set dataBlocks = [{
+        'title': 'General Information',
+        'class': '',
+        'subblocks': [
+            {
+                'title': 'Issue',
+                'data': [
+                    form_row(form.code),
+                    form_row(form.summary),
+                    form_row(form.type),
+                    form_row(form.priority),
+                    form.owner is defined ? form_row(form.owner) : '',
+                    form_row(form.description)
+                ]
+            },
+            {
+                'title': 'Tags',
+                'data': [
+                    form_row(form.tags)
+                ]
+            }
+        ]
+    }] %}
+
+    {% set additionalData = [] %}
+    {% for child in form.children if child.vars.extra_field is defined and child.vars.extra_field %}
+        {% set additionalData = additionalData|merge([form_row(child)]) %}
+    {% endfor %}
+    {% if additionalData is not empty %}
+        {% set dataBlocks = dataBlocks|merge([{
+            'title': 'Additional'|trans,
+            'subblocks': [{
+                'title': '',
+                'useSpan': false,
+                'data' : additionalData
+            }]
+        }] ) %}
+    {% endif %}
+
+    {% set data = {
+        'formErrors': form_errors(form) ? form_errors(form) : null,
+        'dataBlocks': dataBlocks,
+    } %}
+
+    {{ parent() }}
+{% endblock content_data %}

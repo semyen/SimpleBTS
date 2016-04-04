@@ -1,0 +1,29 @@
+parameters:
+    oro_academic_sbts.form.type.issue.class: OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType
+    oro_academic_sbts.form.handler.issue.class: OroAcademic\Bundle\SimpleBTSBundle\Form\Handler\IssueHandler
+    symfony.form.class: Symfony\Component\Form\Form
+
+services:
+    oro_academic_sbts.form.type.issue:
+        class: '%oro_academic_sbts.form.type.issue.class%'
+        tags:
+            - { name: form.type, alias: oro_academic_sbts_issue }
+
+    oro_academic_sbts.form.issue:
+        class: '%symfony.form.class%'
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments:
+            - oro_academic_sbts_issue_form
+            - oro_academic_sbts_issue
+
+    oro_academic_sbts.form.handler.issue:
+        class: '%oro_academic_sbts.form.handler.issue.class%'
+        scope: request
+        arguments:
+            - '@oro_academic_sbts.form.issue'
+            - '@request'
+            - '@oro_academic_sbts.issue.repository'
+            - '@oro_entity.routing_helper'
+        tags:
+            - { name: oro_tag.tag_manager }

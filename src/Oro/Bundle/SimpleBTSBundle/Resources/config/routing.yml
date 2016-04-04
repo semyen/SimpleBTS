@@ -1,4 +1,0 @@
-oro_simple_bts:
-    resource: "@OroSimpleBTSBundle/Controller/"
-    type:     annotation
-    prefix:   /

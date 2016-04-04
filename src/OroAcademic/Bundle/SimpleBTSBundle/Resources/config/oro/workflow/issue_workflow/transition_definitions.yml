@@ -1,0 +1,14 @@
+workflows:
+    simple_bts_issue_workflow:
+        transition_definitions:
+            open_definition: ~
+            start_progress_definition: ~
+            stop_progress_definition: ~
+            resolve_definition:
+                conditions:
+                    @not_blank: [$resolution]
+            reopen_definition:
+                post_actions:
+                    - @assign_value: [$resolution, ~]
+            close_definition: ~
+

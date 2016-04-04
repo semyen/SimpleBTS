@@ -1,0 +1,15 @@
+priority:
+    blocker:          Blocker
+    critical:         Critical
+    major:            Major
+    minor:            Minor
+    trivial:          Trivial
+resolution:
+    cannot_reproduce: Cannot Reproduce
+    done:             Done
+    duplicate:        Duplicate
+    fixed:            Fixed
+    incomplete:       Incomplete
+    rejected:         Rejected
+    wont_do:          Won't Do
+    wont_fix:         Won't Fix
