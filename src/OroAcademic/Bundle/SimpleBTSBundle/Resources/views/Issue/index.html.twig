@@ -1,0 +1,14 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+
+{% set gridName = 'oro_academic_sbts_issue_datagrid' %}
+{% set entity_class = 'oro_academic_sbts.entity.issue.class' %}
+
+{% set pageTitle = 'oroacademic.simplebts.issue.dashboard.page.title'|trans %}
+
+{% block navButtons %}
+    {{ UI.addButton({
+        'path' : path('oro_academic_sbts_issue_create'),
+        'entity_label': 'oroacademic.simplebts.issue.label'|trans
+    }) }}
+{% endblock %}

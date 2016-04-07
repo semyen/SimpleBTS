@@ -69,17 +69,22 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="type", type="text")
      */
     private $type;
 
     /**
-     * @var string
+     * @var IssuePriority
+     *
+     * @ORM\ManyToOne(targetEntity="IssuePriority")
+     * @ORM\JoinColumn(name="issue_priority_id", referencedColumnName="name", onDelete="SET NULL")
      */
     private $priority;
 

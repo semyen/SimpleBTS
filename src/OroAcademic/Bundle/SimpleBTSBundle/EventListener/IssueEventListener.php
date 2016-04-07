@@ -21,6 +21,11 @@ class IssueEventListener
     protected $issues;
 
     /**
+     * @var bool
+     */
+    protected $busy = false;
+
+    /**
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -32,7 +37,7 @@ class IssueEventListener
     public function onFlush(OnFlushEventArgs $event)
     {
         foreach ($event->getEntityManager()->getUnitOfWork()->getScheduledEntityInsertions() as $entity) {
-            if (($entity instanceof Issue) && (!empty($entity->getId()))) {
+            if (($entity instanceof Issue) && (empty($entity->getId()))) {
                 $this->issues[] = $entity;
             }
         }
@@ -40,12 +45,16 @@ class IssueEventListener
 
     public function postFlush(PostFlushEventArgs $event)
     {
-        if (!empty($this->issues)) {
+        if (!$this->busy && !empty($this->issues)) {
             foreach ($this->issues as $issue) {
                 $issue->setCode($issue->getOrganization()->getName() . '-' . $issue->getId());
                 $issue->setReporter($this->container->get('security.token_storage')->getToken()->getUser());
-                $event->getEntityManager()->persist($issue);
+                //OroEntityManager doesn't have removeEventListener method.
+                //$event->getEntityManager()->removeEventListener('onFlush', $this);
+                $this->busy = true;
                 $event->getEntityManager()->flush($issue);
+                //$event->getEntityManager()->addEventListener('onFlush', $this);
+                $this->busy = false;
             }
         }
     }

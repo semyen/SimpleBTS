@@ -55,6 +55,9 @@ class IssueType extends AbstractType
                     self::TASK => 'oroacademic.simplebts.issue.form.issue_type.task.label',
                     self::STORY => 'oroacademic.simplebts.issue.form.issue_type.story.label',
                 ],
+                'constraints' => [
+                    new Assert\NotBlank()
+                ]
             ])
             ->add(
                 'priority',
@@ -64,14 +67,17 @@ class IssueType extends AbstractType
                     'required' => true,
                     'property' => 'label',
                     'class' => 'OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority',
+                    'constraints' => [
+                        new Assert\NotBlank()
+                    ]
                 ]
             )
             ->add(
-                'owner',
+                'assignee',
                 'oro_user_select',
                 [
-                    'label' => 'oroacademic.simplebts.issue.owner.label',
-                    'required' => true,
+                    'label' => 'oroacademic.simplebts.issue.assignee.label',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -82,19 +88,6 @@ class IssueType extends AbstractType
                 ]
             );
         ;
-
-        // we should set enabled for current organization because form change enabled property to false
-        // if 'enabled' field is disabled
-        /*$builder->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $currentOrganization = $this->securityContext->getToken()->getOrganizationContext();
-                $data = $event->getData();
-                if (is_object($data) && $data->getId() === $currentOrganization->getId()) {
-                    $data->setEnabled(true);
-                }
-            }
-        );*/
     }
 
     /**

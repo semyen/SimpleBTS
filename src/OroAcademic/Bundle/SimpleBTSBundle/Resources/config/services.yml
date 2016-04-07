@@ -1,6 +1,9 @@
 parameters:
     oro_academic_sbts.issue.repository.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\Repository\IssueRepository
     oro_academic_sbts.issue.event.listener.class: OroAcademic\Bundle\SimpleBTSBundle\EventListener\IssueEventListener
+    oro_academic_sbts.entity.issue.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue
+    oro_academic_sbts.entity.issue.priority.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority
+    oro_academic_sbts.entity.issue.resolution.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\IssueResolution
 
 services:
     oro_academic_sbts.issue.repository:

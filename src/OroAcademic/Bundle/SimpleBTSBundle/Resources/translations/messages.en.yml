@@ -1,7 +1,8 @@
 oroacademic:
     simplebts:
         issue:
-            entity_label: Issue
+            label: Issue
+            plural.label: Issues
             assignee.label: Assignee
             children.label: Children
             code.label: Code
@@ -33,6 +34,13 @@ oroacademic:
                     sub_task.label: Sub Task
                     task.label: Task
                     story.label: Story
+                title:
+                    create: Create Issue
+            dashboard:
+                page:
+                    title: Issues
+            list: ~
+
         issuepriority:
             entity_label: Issue Priority
             id.label: Id
@@ -45,7 +53,3 @@ oroacademic:
             entity_label: Issue Type
             id.label: Id
             name.label: Name
-
-oro:
-    ui:
-        create_issue: Create Issue

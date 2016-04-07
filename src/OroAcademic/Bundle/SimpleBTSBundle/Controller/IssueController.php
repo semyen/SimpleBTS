@@ -19,7 +19,20 @@ class IssueController extends Controller
      */
     public function indexAction()
     {
-        return new Response();
+        return [
+            'entity_class' => $this->container->getParameter('oro_academic_sbts.form.type.issue.class')
+        ];
+    }
+
+    /**
+     * @Route("/view/{id}", name="oro_academic_sbts_issue_view", requirements={"id"="\d+"})
+     * @Template()
+     */
+    public function viewAction(Issue $entity)
+    {
+        return [
+            'entity' => $entity,
+        ];
     }
 
     /**
@@ -52,6 +65,20 @@ class IssueController extends Controller
         $formAction = $request->getUri();
 
         return $this->update($issue, $formAction);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="oro_academic_sbts_issue_delete", requirements={"id":"\d+"})
+     * @Template()
+     * @param Issue $issue
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function deleteAction(Issue $issue, Request $request)
+    {
+        //$formAction = $request->getUri();
+
+        return [];//$this->update($issue, $formAction);
     }
 
     /**

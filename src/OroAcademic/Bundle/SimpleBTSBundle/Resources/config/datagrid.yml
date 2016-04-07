@@ -1,0 +1,142 @@
+datagrid:
+    oro_academic_sbts_issue_datagrid:
+        #scope: oro_academic_sbts
+        entity_class: '%oro_academic_sbts.entity.issue.class%'
+        source:
+            type: orm
+            query:
+                select:
+                    - issue.id
+                    - issue.code
+                    - issue.summary
+                    - issue.type
+                    - priority.label as priorityLabel
+                    - workflowStep.label as workflowStepLabel
+                    - resolution.label as resolutionLabel
+                    - reporter.id as reporterId
+                    - CONCAT(reporter.firstName, CONCAT(' ', reporter.lastName)) as reporterName
+                    - assignee.id as assigneeId
+                    - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assigneeName
+                    - issue.created
+                    - issue.updated
+                from:
+                    - { table: '%oro_academic_sbts.entity.issue.class%', alias: issue }
+                join:
+                    left:
+                        - { join: issue.priority, alias: priority }
+                        - { join: issue.resolution, alias: resolution }
+                        - { join: issue.reporter, alias: reporter }
+                        - { join: issue.assignee, alias: assignee }
+                        - { join: issue.workflowStep, alias: workflowStep }
+                groupBy: issue.id
+        columns:
+            code:
+                label:         oroacademic.simplebts.issue.code.label
+            summary:
+                label:         oroacademic.simplebts.issue.summary.label
+            type:
+                label:         oroacademic.simplebts.issue.type.label
+            priorityLabel:
+                label:         oroacademic.simplebts.issue.priority.label
+            workflowStepLabel:
+                label:         oroacademic.simplebts.issue.workflow_step.label
+            resolutionLabel:
+                label:         oroacademic.simplebts.issue.resolution.label
+            reporterName:
+                type:          twig
+                label:         oroacademic.simplebts.issue.reporter.label
+                frontend_type: html
+                template:      OroAcademicSimpleBTSBundle:Issue:Datagrid/Property/reporter.html.twig
+            assigneeName:
+                type:          twig
+                label:         oroacademic.simplebts.issue.assignee.label
+                frontend_type: html
+                template:      OroAcademicSimpleBTSBundle:Issue:Datagrid/Property/assignee.html.twig
+            created:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updated:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+        sorters:
+            columns:
+                code:
+                    data_name: issue.code
+                summary:
+                    data_name: issue.summary
+                type:
+                    data_name: issue.type
+                priorityLabel:
+                    data_name: priority.entityOrder
+                workflowStepLabel:
+                    data_name: workflowStep.stepOrder
+                resolutionLabel:
+                    data_name: resolution.entityOrder
+                reporterName:
+                    data_name: reporterName
+                assigneeName:
+                    data_name: assigneeName
+                created:
+                    data_name: issue.created
+                updated:
+                    data_name: issue.updated
+            default:
+                updated: DESC
+        filters:
+            columns:
+                code:
+                    type:      string
+                    data_name: issue.code
+                summary:
+                    type:      string
+                    data_name: issue.summary
+                type:
+                    type:      string
+                    data_name: issue.type
+                priorityLabel:
+                    type:      entity
+                    data_name: priority.name
+                    options:
+                        field_options:
+                            class: '%oro_academic_sbts.entity.issue.priority.class%'
+                            property: label
+                workflowStepLabel:
+                    type:      entity
+                    data_name: issue.workflowStep
+                    options:
+                        field_type: oro_workflow_step_select
+                        field_options:
+                            workflow_entity_class: '%oro_academic_sbts.entity.issue.class%'
+                resolutionLabel:
+                    type:      entity
+                    data_name: resolution.name
+                    options:
+                        field_options:
+                            class: '%oro_academic_sbts.entity.issue.resolution.class%'
+                            property: label
+                reporterName:
+                    type:      string
+                    data_name: reporterName
+                assigneeName:
+                    type:      string
+                    data_name: assigneeName
+                created:
+                    type:      datetime
+                    data_name: issue.created
+                updated:
+                    type:      datetime
+                    data_name: issue.updated
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_academic_sbts_issue_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      oro_academic_sbts_issue_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      oro_academic_sbts_issue_delete
+                params:     [ id ]
