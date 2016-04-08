@@ -24,6 +24,5 @@ services:
             - '@oro_academic_sbts.form.issue'
             - '@request'
             - '@oro_academic_sbts.issue.repository'
-            - '@oro_entity.routing_helper'
         tags:
             - { name: oro_tag.tag_manager }

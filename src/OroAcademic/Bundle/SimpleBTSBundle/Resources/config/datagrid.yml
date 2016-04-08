@@ -39,7 +39,7 @@ datagrid:
             priorityLabel:
                 label:         oroacademic.simplebts.issue.priority.label
             workflowStepLabel:
-                label:         oroacademic.simplebts.issue.workflow_step.label
+                label:         oroacademic.simplebts.issue.workflow_status.label
             resolutionLabel:
                 label:         oroacademic.simplebts.issue.resolution.label
             reporterName:
@@ -67,11 +67,11 @@ datagrid:
                 type:
                     data_name: issue.type
                 priorityLabel:
-                    data_name: priority.entityOrder
+                    data_name: priority.order
                 workflowStepLabel:
                     data_name: workflowStep.stepOrder
                 resolutionLabel:
-                    data_name: resolution.entityOrder
+                    data_name: resolution.name
                 reporterName:
                     data_name: reporterName
                 assigneeName:

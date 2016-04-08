@@ -179,7 +179,7 @@ class Issue extends ExtendIssue implements Taggable
      * @var WorkflowItem
      *
      * @ORM\OneToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowItem")
-     * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="workflow_item_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $workflowItem;
 
@@ -187,7 +187,7 @@ class Issue extends ExtendIssue implements Taggable
      * @var WorkflowStep
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\WorkflowBundle\Entity\WorkflowStep")
-     * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="workflow_step_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $workflowStep;
 
@@ -250,7 +250,7 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * @param WorkflowItem $workflowStep
+     * @param WorkflowStep $workflowStep
      * @return Issue
      */
     public function setWorkflowStep($workflowStep)

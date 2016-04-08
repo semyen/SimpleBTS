@@ -2,5 +2,5 @@ workflows:
     simple_bts_issue_workflow:
         attributes:
             resolution:
-                label: 'Resolution'
+                label: oroacademic.simplebts.issue.resolution.label
                 property_path: issue.resolution

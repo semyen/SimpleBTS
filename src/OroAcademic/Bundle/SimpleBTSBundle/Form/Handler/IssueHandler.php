@@ -41,26 +41,18 @@ class IssueHandler implements TagHandlerInterface
     protected $tagManager;
 
     /**
-     * @var EntityRoutingHelper
-     */
-    protected $entityRoutingHelper;
-
-    /**
      * @param FormInterface       $form
      * @param Request             $request
      * @param IssueRepository     $issueRepository
-     * @param EntityRoutingHelper $entityRoutingHelper
      */
     public function __construct(
         FormInterface $form,
         Request $request,
-        IssueRepository $issueRepository,
-        EntityRoutingHelper $entityRoutingHelper
+        IssueRepository $issueRepository
     ) {
         $this->form                = $form;
         $this->request             = $request;
         $this->issueRepository     = $issueRepository;
-        $this->entityRoutingHelper = $entityRoutingHelper;
     }
 
     /**

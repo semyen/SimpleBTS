@@ -2,6 +2,7 @@ oroacademic:
     simplebts:
         issue:
             label: Issue
+            entity_label: Issue
             plural.label: Issues
             assignee.label: Assignee
             children.label: Children
@@ -25,6 +26,7 @@ oroacademic:
             updated.label: Updated
             workflow_item.label: Workflow Item
             workflow_step.label: Workflow Step
+            workflow_status.label: Status
 
             form:
                 issue.saved: Issue was successfully saved.

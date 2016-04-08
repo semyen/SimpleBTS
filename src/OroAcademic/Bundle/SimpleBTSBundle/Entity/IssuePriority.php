@@ -51,6 +51,13 @@ class IssuePriority
     protected $locale;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="order", type="integer")
+     */
+    protected $order;
+
+    /**
      * @param string $name
      */
     public function __construct($name)
@@ -120,5 +127,28 @@ class IssuePriority
     public function __toString()
     {
         return (string)$this->label;
+    }
+
+    /**
+     * Set entity order
+     *
+     * @param integer $order
+     * @return IssuePriority
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get entity order
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

@@ -27,18 +27,18 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
     public function up(Schema $schema, QueryBag $queries)
     {
         /** Tables generation **/
-        $this->createOroAcademicSbtsIssueTable($schema);
-        $this->createOroAcademicSbtsIssueCollaboratorsTable($schema);
-        $this->createOroAcademicSbtsIssuePriorityTable($schema);
-        $this->createOroAcademicSbtsIssuePriorityTranslationTable($schema);
-        $this->createOroAcademicSbtsIssueRelationTable($schema);
-        $this->createOroAcademicSbtsIssueResolutionTable($schema);
-        $this->createOroAcademicSbtsIssueResolutionTranslationTable($schema);
+        $this->createOroIssueTable($schema);
+        $this->createOroIssueCollaboratorsTable($schema);
+        $this->createOroIssuePriorityTable($schema);
+        $this->createOroIssuePriorityTranslationTable($schema);
+        $this->createOroIssueRelationTable($schema);
+        $this->createOroIssueResolutTable($schema);
+        $this->createOroIssueResolutTranslationTable($schema);
 
         /** Foreign keys generation **/
-        $this->addOroAcademicSbtsIssueForeignKeys($schema);
-        $this->addOroAcademicSbtsIssueCollaboratorsForeignKeys($schema);
-        $this->addOroAcademicSbtsIssueRelationForeignKeys($schema);
+        $this->addOroIssueForeignKeys($schema);
+        $this->addOroIssueCollaboratorsForeignKeys($schema);
+        $this->addOroIssueRelationForeignKeys($schema);
     }
 
     /**
@@ -46,24 +46,25 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssueTable(Schema $schema)
+    protected function createOroIssueTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('workflow_item_id', 'integer', ['notnull' => false]);
-        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
-        $table->addColumn('assignee_id', 'integer', ['notnull' => false]);
         $table->addColumn('workflow_step_id', 'integer', ['notnull' => false]);
-        $table->addColumn('parent_id', 'integer', ['notnull' => false]);
-        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_resolution_id', 'string', ['notnull' => false, 'length' => 255]);
+        $table->addColumn('assignee_id', 'integer', ['notnull' => false]);
+        $table->addColumn('issue_priority_id', 'string', ['notnull' => false, 'length' => 255]);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
+        $table->addColumn('owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('parent_id', 'integer', ['notnull' => false]);
         $table->addColumn('reporter_id', 'integer', ['notnull' => false]);
         $table->addColumn('summary', 'string', ['length' => 255]);
         $table->addColumn('code', 'string', ['length' => 50]);
         $table->addColumn('description', 'text', ['notnull' => false]);
-        $table->addColumn('type', 'text', []);
         $table->addColumn('created', 'datetime', []);
         $table->addColumn('updated', 'datetime', []);
+        $table->addColumn('type', 'text', []);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['code'], 'UNIQ_2C20F97D77153098');
         $table->addUniqueIndex(['workflow_item_id'], 'UNIQ_2C20F97D1023C4EE');
@@ -74,6 +75,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
         $table->addIndex(['workflow_step_id'], 'IDX_2C20F97D71FE882C', []);
         $table->addIndex(['owner_id'], 'IDX_2C20F97D7E3C61F9', []);
         $table->addIndex(['organization_id'], 'IDX_2C20F97D32C8A3DE', []);
+        $table->addIndex(['issue_priority_id'], 'IDX_DF0F9E3B2B304C5D', []);
     }
 
     /**
@@ -81,7 +83,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssueCollaboratorsTable(Schema $schema)
+    protected function createOroIssueCollaboratorsTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue_collaborators');
         $table->addColumn('issue_id', 'integer', []);
@@ -96,11 +98,12 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssuePriorityTable(Schema $schema)
+    protected function createOroIssuePriorityTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue_priority');
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('label', 'string', ['length' => 255]);
+        $table->addColumn('order', 'integer', []);
         $table->setPrimaryKey(['name']);
         $table->addUniqueIndex(['label'], 'UNIQ_127D4E75EA750E8');
     }
@@ -110,7 +113,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssuePriorityTranslationTable(Schema $schema)
+    protected function createOroIssuePriorityTranslationTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue_priority_translation');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -128,7 +131,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssueRelationTable(Schema $schema)
+    protected function createOroIssueRelationTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue_relation');
         $table->addColumn('related_issue_id', 'integer', []);
@@ -143,7 +146,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssueResolutionTable(Schema $schema)
+    protected function createOroIssueResolutTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue_resolut');
         $table->addColumn('name', 'string', ['length' => 255]);
@@ -157,7 +160,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function createOroAcademicSbtsIssueResolutionTranslationTable(Schema $schema)
+    protected function createOroIssueResolutTranslationTable(Schema $schema)
     {
         $table = $schema->createTable('oro_issue_resolut_translation');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
@@ -175,20 +178,26 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addOroAcademicSbtsIssueForeignKeys(Schema $schema)
+    protected function addOroIssueForeignKeys(Schema $schema)
     {
         $table = $schema->getTable('oro_issue');
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_workflow_item'),
             ['workflow_item_id'],
             ['id'],
-            ['onDelete' => null, 'onUpdate' => null]
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable('oro_organization'),
-            ['organization_id'],
+            $schema->getTable('oro_workflow_step'),
+            ['workflow_step_id'],
             ['id'],
-            ['onDelete' => null, 'onUpdate' => null]
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_issue_resolut'),
+            ['issue_resolution_id'],
+            ['name'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),
@@ -197,14 +206,14 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
             ['onDelete' => null, 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable('oro_workflow_step'),
-            ['workflow_step_id'],
-            ['id'],
-            ['onDelete' => null, 'onUpdate' => null]
+            $schema->getTable('oro_issue_priority'),
+            ['issue_priority_id'],
+            ['name'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable('oro_issue'),
-            ['parent_id'],
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
             ['id'],
             ['onDelete' => null, 'onUpdate' => null]
         );
@@ -215,10 +224,10 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
             ['onDelete' => null, 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
-            $schema->getTable('oro_issue_resolut'),
-            ['issue_resolution_id'],
-            ['name'],
-            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+            $schema->getTable('oro_issue'),
+            ['parent_id'],
+            ['id'],
+            ['onDelete' => null, 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),
@@ -233,7 +242,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addOroAcademicSbtsIssueCollaboratorsForeignKeys(Schema $schema)
+    protected function addOroIssueCollaboratorsForeignKeys(Schema $schema)
     {
         $table = $schema->getTable('oro_issue_collaborators');
         $table->addForeignKeyConstraint(
@@ -255,7 +264,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
      *
      * @param Schema $schema
      */
-    protected function addOroAcademicSbtsIssueRelationForeignKeys(Schema $schema)
+    protected function addOroIssueRelationForeignKeys(Schema $schema)
     {
         $table = $schema->getTable('oro_issue_relation');
         $table->addForeignKeyConstraint(
