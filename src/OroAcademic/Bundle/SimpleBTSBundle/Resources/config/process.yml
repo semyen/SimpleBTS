@@ -1,0 +1,55 @@
+definitions:
+    issue_collaborators:
+        #doesn't load labels from translations
+        label: 'Add collaborator to issue on create/update'
+        enabled: true
+        #doesn't load classes from parameters
+        entity: OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue
+        order: 10
+        actions_configuration:
+            - @call_method:
+                conditions:
+                    @not_empty: [$reporter]
+                parameters:
+                    object: $.data
+                    method: addCollaborator
+                    method_parameters: [$reporter]
+            - @call_method:
+                conditions:
+                    @not_empty: [$assignee]
+                parameters:
+                    object: $.data
+                    method: addCollaborator
+                    method_parameters: [$assignee]
+
+    issue_notes:
+        label: 'Add collaborator to issue on add note'
+        enabled: true
+        entity: Oro\Bundle\NoteBundle\Entity\Note
+        order: 20
+        actions_configuration:
+            - @tree:
+                conditions:
+                    @instanceof: [$target, OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue]
+                actions:
+                    - @create_datetime:
+                        attribute: $target.updatedAt
+                    - @call_method:
+                        object: $target
+                        method: addCollaborator
+                        method_parameters: [$owner]
+
+triggers:
+    issue_collaborators:
+        -
+            event: create
+            queued: false
+        -
+            event: update
+            field: assignee
+            queued: false
+
+    issue_notes:
+        -
+            event: create
+            queued: false

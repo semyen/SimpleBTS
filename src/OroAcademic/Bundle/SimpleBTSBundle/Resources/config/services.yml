@@ -7,6 +7,9 @@ parameters:
     oro_academic_sbts.datagrid.action.issue.delete.class: OroAcademic\Bundle\SimpleBTSBundle\Datagrid\Action\Issue\DeleteAction
     doctrine.orm.entity_repository.class: Doctrine\ORM\EntityRepository
 
+   # Workflow conditions
+    oro_email.workflow.condition.instanceof.class:      Oro\Bundle\EmailBundle\Model\Condition\IsInstanceOf
+
 services:
     oro_academic_sbts.issue.event.listener:
         class: '%oro_academic_sbts.issue.event.listener.class%'
@@ -21,3 +24,9 @@ services:
         scope: prototype
         tags:
             - { name: oro_datagrid.extension.action.type, type: delete }
+
+    oro_academic_sbts.workflow.condition.instanceof:
+        class: '%oro_email.workflow.condition.instanceof.class%'
+        tags:
+            - { name: oro_workflow.condition, alias: instanceof }
+

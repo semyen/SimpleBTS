@@ -529,7 +529,7 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * Set collaborators
      *
-     * @param string $collaborators
+     * @param ArrayCollection $collaborators
      *
      * @return Issue
      */
@@ -541,9 +541,39 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
+     * Add collaborator
+     *
+     * @param User $collaborator
+     *
+     * @return Issue
+     */
+    public function addCollaborator(User $collaborator)
+    {
+        if (!empty($collaborator->getId()) && !$this->collaborators->contains($collaborator)) {
+            $this->collaborators->add($collaborator);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove collaborator
+     *
+     * @param User $collaborator
+     *
+     * @return Issue
+     */
+    public function removeCollaborator(User $collaborator)
+    {
+        $this->collaborators->removeElement($collaborator);
+
+        return $this;
+    }
+
+    /**
      * Get collaborators
      *
-     * @return string
+     * @return ArrayCollection
      */
     public function getCollaborators()
     {
