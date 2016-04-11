@@ -2,13 +2,12 @@
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
 {% oro_title_set({params : {"%issueCode%": issue.code, "%issueName%": 'oroacademic.simplebts.issue.label'|trans }}) %}
-{% set issueId = issue.id %}
 
 {% block navButtons %}
     {{ UI.buttonSeparator() }}
 
     {% set html = UI.saveAndCloseButton() %}
-    {% if resource_granted('oro_bug_tracking_system_issue_update') %}
+    {% if resource_granted('oro_academic_sbts_issue_update') %}
         {% set html = html ~ UI.saveAndStayButton() %}
     {% endif %}
     {{ UI.dropdownSaveButton({'html': html}) }}
@@ -16,12 +15,12 @@
 {% endblock navButtons %}
 
 {% block pageHeader %}
-    {% if issueId %}
+    {% if issue.id %}
         {% set breadcrumbs = {
-            'issue': issue,
+            'entity': issue,
             'indexPath': path('oro_academic_sbts_issue_index'),
-            'indexLabel': 'oro.simplebts.issue.plural.label'|trans,
-            'issueTitle': issue.code
+            'indexLabel': 'oroacademic.simplebts.issue.plural.label'|trans,
+            'entityTitle': issue.code
         } %}
         {{ parent() }}
     {% else %}

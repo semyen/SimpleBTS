@@ -1,7 +1,8 @@
 parameters:
-    oro_academic_sbts.form.type.issue.class: OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType
-    oro_academic_sbts.form.handler.issue.class: OroAcademic\Bundle\SimpleBTSBundle\Form\Handler\IssueHandler
-    symfony.form.class: Symfony\Component\Form\Form
+    oro_academic_sbts.form.type.issue.class:           OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType
+    oro_academic_sbts.form.handler.issue.class:        OroAcademic\Bundle\SimpleBTSBundle\Form\Handler\IssueHandler
+    oro_academic_sbts.issue.manager.api.class:         OroAcademic\Bundle\SimpleBTSBundle\Entity\Manager\IssueApiEntityManager
+    symfony.form.class:                                Symfony\Component\Form\Form
 
 services:
     oro_academic_sbts.form.type.issue:
@@ -11,8 +12,7 @@ services:
 
     oro_academic_sbts.form.issue:
         class: '%symfony.form.class%'
-        factory_method: createNamed
-        factory_service: form.factory
+        factory: ["@form.factory", createNamed]
         arguments:
             - oro_academic_sbts_issue_form
             - oro_academic_sbts_issue
@@ -23,6 +23,31 @@ services:
         arguments:
             - '@oro_academic_sbts.form.issue'
             - '@request'
-            - '@oro_academic_sbts.issue.repository'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: oro_tag.tag_manager }
+
+    # Issue API
+    oro_academic_sbts.form.issue.api:
+        class: '%symfony.form.class%'
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - oro_academic_sbts_issue_form_api
+            - oro_academic_sbts_issue_api
+
+    oro_academic_sbts.issue.manager.api:
+        class: '%oro_academic_sbts.issue.manager.api.class%'
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - '%oro_academic_sbts.entity.issue.class%'
+            - '@doctrine.orm.entity_manager'
+
+    oro_academic_sbts.form.handler.issue.api:
+        class: '%oro_academic_sbts.form.handler.issue.class%'
+        scope: request
+        arguments:
+            - '@oro_academic_sbts.form.issue.api'
+            - '@request'
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: oro_tag.tag_manager }

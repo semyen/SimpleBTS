@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class IssueController extends Controller
 {
@@ -27,6 +26,8 @@ class IssueController extends Controller
     /**
      * @Route("/view/{id}", name="oro_academic_sbts_issue_view", requirements={"id"="\d+"})
      * @Template()
+     * @param Issue $entity
+     * @return array
      */
     public function viewAction(Issue $entity)
     {
@@ -71,14 +72,13 @@ class IssueController extends Controller
      * @Route("/delete/{id}", name="oro_academic_sbts_issue_delete", requirements={"id":"\d+"})
      * @Template()
      * @param Issue $issue
-     * @param Request $request
      * @return RedirectResponse
      */
-    public function deleteAction(Issue $issue, Request $request)
+    public function deleteAction(Issue $issue)
     {
-        //$formAction = $request->getUri();
+        $this->getDoctrine()->getEntityManager()->getRepository('OroAcademicSimpleBTSBundle:Issue')->delete($issue);
 
-        return [];//$this->update($issue, $formAction);
+        return $this->redirect($this->generateUrl('oro_academic_sbts_issue_index'));
     }
 
     /**
@@ -91,7 +91,7 @@ class IssueController extends Controller
         if ($this->get('oro_academic_sbts.form.handler.issue')->process($issue)) {
             $this->get('session')->getFlashBag()->add(
                 'success',
-                $this->get('translator')->trans('oro.academic.simplebts.issue.form.issue.saved')
+                $this->get('translator')->trans('oroacademic.simplebts.issue.form.saved')
             );
 
             return $this->get('oro_ui.router')->redirectAfterSave(

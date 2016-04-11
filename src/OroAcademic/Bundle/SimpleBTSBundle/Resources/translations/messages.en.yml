@@ -8,7 +8,7 @@ oroacademic:
             children.label: Children
             code.label: Code
             collaborators.label: Collaborators
-            created.label: Created
+            createdAt.label: Created
             description.label: Description
             id.label: Id
             notes.label: Notes
@@ -23,13 +23,13 @@ oroacademic:
             summary.label: Summary
             tags.label: Tags
             type.label: Type
-            updated.label: Updated
+            updatedAt.label: Updated
             workflow_item.label: Workflow Item
             workflow_step.label: Workflow Step
             workflow_status.label: Status
 
             form:
-                issue.saved: Issue was successfully saved.
+                saved: Issue was successfully saved.
                 choose_type: Choose Type
                 issue_type:
                     bug.label: Bug

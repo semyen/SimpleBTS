@@ -2,7 +2,7 @@
 
 namespace OroAcademic\Bundle\SimpleBTSBundle\Form\Handler;
 
-use OroAcademic\Bundle\SimpleBTSBundle\Entity\Repository\IssueRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -31,9 +31,9 @@ class IssueHandler implements TagHandlerInterface
     protected $request;
 
     /**
-     * @var IssueRepository
+     * @var EntityManager
      */
-    protected $issueRepository;
+    protected $entityManager;
 
     /**
      * @var TagManager
@@ -43,16 +43,16 @@ class IssueHandler implements TagHandlerInterface
     /**
      * @param FormInterface       $form
      * @param Request             $request
-     * @param IssueRepository     $issueRepository
+     * @param EntityManager     $entityManager
      */
     public function __construct(
         FormInterface $form,
         Request $request,
-        IssueRepository $issueRepository
+        EntityManager $entityManager
     ) {
         $this->form                = $form;
         $this->request             = $request;
-        $this->issueRepository     = $issueRepository;
+        $this->entityManager     = $entityManager;
     }
 
     /**
@@ -62,7 +62,7 @@ class IssueHandler implements TagHandlerInterface
     public function process(Issue $entity)
     {
         $currentDate = new \DateTime('now', new \DateTimeZone('UTC'));
-        $entity->setCreated($currentDate)->setUpdated($currentDate);
+        $entity->setCreatedAt($currentDate)->setUpdatedAt($currentDate);
 
         $this->form->setData($entity);
 
@@ -84,7 +84,7 @@ class IssueHandler implements TagHandlerInterface
      */
     protected function onSuccess(Issue $entity)
     {
-        $this->issueRepository->update($entity);
+        $this->entityManager->getRepository('OroAcademicSimpleBTSBundle:Issue')->update($entity);
 
         if ($this->tagManager) {
             $this->tagManager->saveTagging($entity);

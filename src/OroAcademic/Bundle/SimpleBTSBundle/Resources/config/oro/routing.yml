@@ -1,4 +1,13 @@
 oro_academic_sbts:
-    resource: "@OroAcademicSimpleBTSBundle/Controller"
-    type:     annotation
-    prefix:   /issue
+    resource:     "@OroAcademicSimpleBTSBundle/Controller"
+    type:         annotation
+    prefix:       /issue
+
+oro_academic_sbts_api:
+    resource:     "@OroAcademicSimpleBTSBundle/Resources/config/oro/routing_api.yml"
+    type:         rest
+    prefix:       api/rest/{version}
+    requirements:
+        version:  latest|v1
+    defaults:
+        version:  latest

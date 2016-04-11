@@ -4,17 +4,20 @@ parameters:
     oro_academic_sbts.entity.issue.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue
     oro_academic_sbts.entity.issue.priority.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority
     oro_academic_sbts.entity.issue.resolution.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\IssueResolution
+    oro_academic_sbts.datagrid.action.issue.delete.class: OroAcademic\Bundle\SimpleBTSBundle\Datagrid\Action\Issue\DeleteAction
+    doctrine.orm.entity_repository.class: Doctrine\ORM\EntityRepository
 
 services:
-    oro_academic_sbts.issue.repository:
-        class: '%oro_academic_sbts.issue.repository.class%'
-        arguments:
-            - '@doctrine.orm.entity_manager'
-
     oro_academic_sbts.issue.event.listener:
-            class: '%oro_academic_sbts.issue.event.listener.class%'
-            arguments:
-                - '@service_container'
-            tags:
-                - { name: doctrine.event_listener, event: onFlush }
-                - { name: doctrine.event_listener, event: postFlush }
+        class: '%oro_academic_sbts.issue.event.listener.class%'
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
+
+    oro_academic_sbts.datagrid.action.issue.delete:
+        class: '%oro_academic_sbts.datagrid.action.issue.delete.class%'
+        scope: prototype
+        tags:
+            - { name: oro_datagrid.extension.action.type, type: delete }

@@ -62,8 +62,8 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
         $table->addColumn('summary', 'string', ['length' => 255]);
         $table->addColumn('code', 'string', ['length' => 50]);
         $table->addColumn('description', 'text', ['notnull' => false]);
-        $table->addColumn('created', 'datetime', []);
-        $table->addColumn('updated', 'datetime', []);
+        $table->addColumn('created_at', 'datetime', []);
+        $table->addColumn('updated_at', 'datetime', []);
         $table->addColumn('type', 'text', []);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['code'], 'UNIQ_2C20F97D77153098');

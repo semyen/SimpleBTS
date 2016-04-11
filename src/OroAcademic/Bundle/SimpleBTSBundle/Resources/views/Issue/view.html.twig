@@ -1,0 +1,117 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+{% import 'OroTagBundle::macros.html.twig' as tag %}
+
+{% oro_title_set({params : {"%entityCode%": entity.code}}) %}
+
+{% block navButtons %}
+    {% if resource_granted('EDIT', entity) %}
+        {{ UI.editButton({
+            'path' : path('oro_academic_sbts_issue_update', { id: entity.id }),
+            'entity_label': 'oroacademic.simplebts.issue.label'|trans
+        }) }}
+    {% endif %}
+    {% if resource_granted('DELETE', entity) %}
+        {% set idButton = 'btn-remove-issue' %}
+        {{ UI.button({
+            'path':  path('oro_academic_sbts_issue_delete', {'id': entity.id}),
+            'aCss':  'no-hash',
+            'iCss':  'icon-trash',
+            'id':    idButton,
+            'label': 'oro.ui.delete'|trans,
+            'title': 'oro.ui.delete'|trans ~ ' ' ~ 'oroacademic.simplebts.issue.label'|trans,
+        }) }}
+
+        {% set issueDeletionComponentOptions = {
+            idButton: idButton,
+            url: path('oro_academic_sbts_issue_index'),
+            subTasksCount: entity.getChildren()|length
+        } %}
+    {% endif %}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+        'entity': entity,
+        'indexPath': path('oro_academic_sbts_issue_index'),
+        'indexLabel': 'oroacademic.simplebts.issue.plural.label'|trans,
+        'entityTitle': entity.code ~ ' : ' ~ entity.summary
+    } %}
+    {% if entity.parent %}
+        {% set breadcrumbs = breadcrumbs|merge({'additional': [{
+            'entity': entity.parent,
+            'indexPath': path('oro_academic_sbts_issue_index', { 'id': entity.parent.id }),
+            'indexLabel': entity.parent.code
+        }]}) %}
+    {% endif %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {%- set issueInformation -%}
+        <div class="row-fluid form-horizontal">
+            <div class="responsive-block">
+                {{ UI.renderProperty('oroacademic.simplebts.issue.summary.label'|trans, entity.summary) }}
+                {{ UI.renderHtmlProperty('oroacademic.simplebts.issue.description.label'|trans, entity.description|nl2br) }}
+                {% if entity.type %}
+                    {{ UI.renderProperty('oroacademic.simplebts.issue.type.label'|trans, ('oroacademic.simplebts.issue.form.issue_type.' ~  entity.type ~ '.label') | trans()) }}
+                {% else %}
+                    {{ UI.renderProperty('oroacademic.simplebts.issue.type.label'|trans, '') }}
+                {% endif %}
+                {{ UI.renderProperty('oroacademic.simplebts.issue.priority.label'|trans, entity.priority) }}
+                {{ UI.renderProperty('oroacademic.simplebts.issue.workflow_step.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
+                {{ UI.renderProperty('oroacademic.simplebts.issue.resolution.label'|trans, entity.resolution) }}
+
+                {%- set reporterData -%}
+                {%- if entity.reporter -%}
+                    {% if resource_granted('oro_user_user_view') %}
+                        <a href="{{ path('oro_user_view', {'id': entity.reporter.id}) }}">
+                            {{ entity.reporter|oro_format_name|escape }}
+                        </a>
+                    {% else %}
+                        {{ entity.reporter|oro_format_name|escape }}
+                    {% endif %}
+                {%- endif -%}
+                {%- endset -%}
+                {{ UI.renderHtmlProperty('oroacademic.simplebts.issue.reporter.label'|trans, reporterData) }}
+
+                {%- set ownerData -%}
+                {%- if entity.owner -%}
+                    {% if resource_granted('oro_user_user_view') %}
+                        <a href="{{ path('oro_user_view', {'id': entity.owner.id}) }}">
+                            {{ entity.owner|oro_format_name|escape }}
+                        </a>
+                    {% else %}
+                        {{ entity.owner|oro_format_name|escape }}
+                    {% endif %}
+                {%- endif -%}
+                {%- endset -%}
+                {{ UI.renderHtmlProperty('oroacademic.simplebts.issue.owner.label'|trans, ownerData) }}
+            </div>
+            <div class="responsive-block">
+                {{ entityConfig.renderDynamicFields(entity) }}
+
+                {% if resource_granted('oro_tag_view_tag_cloud') %}
+                    {{ UI.renderHtmlProperty('oro.tag.entity_plural_label'|trans, tag.renderView(entity)) }}
+                {% endif %}
+            </div>
+        </div>
+    {%- endset -%}
+
+    {% set dataBlocks = [
+        {
+            'title': 'General Information'|trans,
+            'class': 'active',
+            'subblocks': [
+                {'data' : [issueInformation]}
+            ]
+        }
+    ] %}
+
+    {% set id = 'issueView' %}
+    {% set data = { 'dataBlocks': dataBlocks } %}
+
+    {{ parent() }}
+{% endblock content_data %}
