@@ -41,7 +41,7 @@
                 'data': [
                     form_row(form.code),
                     form_row(form.summary),
-                    form_row(form.type),
+                    (issue.isSubTask() or issue.isStory()) ? '' : form_row(form.type),
                     form_row(form.priority),
                     form_row(form.assignee),
                     form_row(form.description)

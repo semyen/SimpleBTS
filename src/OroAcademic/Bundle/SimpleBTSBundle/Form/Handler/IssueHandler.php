@@ -61,10 +61,11 @@ class IssueHandler implements TagHandlerInterface
      */
     public function process(Issue $entity)
     {
+        $currentDate = new \DateTime('now', new \DateTimeZone('UTC'));
         if (empty($entity->getCreatedAt())) {
-            $currentDate = new \DateTime('now', new \DateTimeZone('UTC'));
-            $entity->setCreatedAt($currentDate)->setUpdatedAt($currentDate);
+            $entity->setCreatedAt($currentDate);
         }
+        $entity->setUpdatedAt($currentDate);
 
         $this->form->setData($entity);
 

@@ -162,3 +162,61 @@ datagrid:
                 link:          delete_link
         options:
             entity_pagination: true
+
+
+    oro_academic_sbts_issue_subtask_datagrid:
+        extends: oro_academic_sbts_issue_datagrid
+        source:
+            query:
+                where:
+                    and:
+                        - issue.parent = :issueId
+            bind_parameters:
+                - issueId
+
+
+    oro_academic_sbts_issue_collaborators_datagrid:
+        source:
+            type: orm
+            query:
+                select:
+                    - collaborators.id
+                    - CONCAT(collaborators.firstName, CONCAT(' ', collaborators.lastName)) as collaboratorFullName
+                from:
+                    - { table: '%oro_academic_sbts.entity.issue.class%', alias: issue }
+                join:
+                    left:
+                        - { join: issue.collaborators , alias: collaborators }
+                where:
+                    and:
+                        - issue.id = :issueId
+            bind_parameters:
+                - issueId
+        columns:
+            collaboratorFullName:
+                label: oroacademic.simplebts.issue.collaborators.label
+            tags:
+                renderable: false
+            workflowStep:
+                renderable: false
+        sorters:
+            columns:
+                collaboratorFullName:
+                    data_name: collaboratorFullName
+            default:
+                collaboratorFullName: ASC
+        filters: ~
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      oro_user_view
+                params:     [ id ]
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  oro_user_user_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true

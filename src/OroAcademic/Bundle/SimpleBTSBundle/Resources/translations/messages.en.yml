@@ -38,10 +38,22 @@ oroacademic:
                     story.label: Story
                 title:
                     create: Create Issue
+                parent_not_found: Parent issue not found
+                parent_can_not_have_subtasks: Parent issue can not have sub-tasks
+
             dashboard:
                 page:
                     title: Issues
+
             list: ~
+
+            view:
+                button:
+                    create_subtask: Create Sub-Task
+                block:
+                    general: General Information
+                    subtask: Sub-Tasks
+                    collaborators: Collaborators
 
         issuepriority:
             entity_label: Issue Priority

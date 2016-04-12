@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\TagBundle\Entity\Taggable;
+use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 use OroAcademic\Bundle\SimpleBTSBundle\Model\ExtendIssue;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
@@ -720,5 +721,29 @@ class Issue extends ExtendIssue implements Taggable
     public function getOrganization()
     {
         return $this->organization;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStory()
+    {
+        if (!empty($this->getType()) && ($this->getType() == IssueType::STORY)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSubTask()
+    {
+        if (!empty($this->getType()) && ($this->getType() == IssueType::SUB_TASK)) {
+            return true;
+        }
+
+        return false;
     }
 }

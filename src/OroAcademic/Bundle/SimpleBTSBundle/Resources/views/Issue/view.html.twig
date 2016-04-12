@@ -30,6 +30,14 @@
             subTasksCount: entity.getChildren()|length
         } %}
     {% endif %}
+    {% if resource_granted('CREATE', entity) %}
+        {% if entity.isStory() %}
+            {{ UI.button({
+                'path' : path('oro_academic_sbts_issue_create', { 'parentId': entity.id }),
+                'label': 'oroacademic.simplebts.issue.view.button.create_subtask'|trans
+            }) }}
+        {% endif %}
+    {% endif %}
 {% endblock navButtons %}
 
 {% block pageHeader %}
@@ -42,7 +50,7 @@
     {% if entity.parent %}
         {% set breadcrumbs = breadcrumbs|merge({'additional': [{
             'entity': entity.parent,
-            'indexPath': path('oro_academic_sbts_issue_index', { 'id': entity.parent.id }),
+            'indexPath': path('oro_academic_sbts_issue_view', { 'id': entity.parent.id }),
             'indexLabel': entity.parent.code
         }]}) %}
     {% endif %}
@@ -100,15 +108,31 @@
         </div>
     {%- endset -%}
 
-    {% set dataBlocks = [
-        {
-            'title': 'General Information'|trans,
+    {% set dataBlocks = [{
+        'title': 'oroacademic.simplebts.issue.view.block.general'|trans,
+        'class': 'active',
+        'subblocks': [
+            {'data' : [issueInformation]}
+        ]
+    }] %}
+
+    {% if entity.isStory() %}
+        {% set dataBlocks = dataBlocks|merge([{
+            'title': 'oroacademic.simplebts.issue.view.block.subtask'|trans,
             'class': 'active',
             'subblocks': [
-                {'data' : [issueInformation]}
+                {'data' : [dataGrid.renderGrid('oro_academic_sbts_issue_subtask_datagrid', {'issueId': entity.id})] }
             ]
-        }
-    ] %}
+        }]) %}
+    {% endif %}
+
+    {% set dataBlocks = dataBlocks|merge([{
+        'title': 'oroacademic.simplebts.issue.view.block.collaborators'|trans,
+        'class': 'active',
+        'subblocks': [
+            {'data' : [dataGrid.renderGrid('oro_academic_sbts_issue_collaborators_datagrid', {'issueId': entity.id})] }
+        ]
+    }]) %}
 
     {% set id = 'issueView' %}
     {% set data = { 'dataBlocks': dataBlocks } %}

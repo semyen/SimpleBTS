@@ -3,6 +3,7 @@
 namespace OroAcademic\Bundle\SimpleBTSBundle\Controller;
 
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
+use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -44,6 +45,31 @@ class IssueController extends Controller
      */
     public function createAction(Request $request)
     {
+        $issue = new Issue();
+
+        $parentId = (int)$request->query->get('parentId', 0);
+
+        if (!empty($parentId)) {
+            $parentIssue = $this->getDoctrine()->getRepository('OroAcademicSimpleBTSBundle:Issue')->find($parentId);
+
+            if (!empty($parentIssue) && $parentIssue->isStory()) {
+                $issue->setParent($parentIssue);
+                $issue->setType(IssueType::SUB_TASK);
+            } else {
+                if (empty($parentIssue)) {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        $this->get('translator')->trans('oroacademic.simplebts.issue.form.parent_not_found')
+                    );
+                } elseif (!$parentIssue->isStory()) {
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        $this->get('translator')->trans('oroacademic.simplebts.issue.form.parent_can_not_have_subtasks')
+                    );
+                }
+            }
+        }
+
         $formAction = $this->get('oro_entity.routing_helper')
             ->generateUrlByRequest(
                 'oro_academic_sbts_issue_create',
@@ -51,7 +77,7 @@ class IssueController extends Controller
             )
         ;
 
-        return $this->update(new Issue(), $formAction);
+        return $this->update($issue, $formAction);
     }
 
     /**
