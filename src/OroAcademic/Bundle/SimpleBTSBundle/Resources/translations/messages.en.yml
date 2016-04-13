@@ -55,6 +55,9 @@ oroacademic:
                     subtask: Sub-Tasks
                     collaborators: Collaborators
 
+            importexport:
+                import: Import Issues
+
         issuepriority:
             entity_label: Issue Priority
             id.label: Id
@@ -67,3 +70,10 @@ oroacademic:
             entity_label: Issue Type
             id.label: Id
             name.label: Name
+
+oro:
+    importexport:
+        import:
+            oro_academic_sbts:
+                add_or_replace: Add or replace
+                add: Add

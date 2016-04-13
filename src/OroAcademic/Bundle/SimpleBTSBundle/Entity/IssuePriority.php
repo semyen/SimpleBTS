@@ -5,6 +5,7 @@ namespace OroAcademic\Bundle\SimpleBTSBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * IssuePriority
@@ -34,6 +35,13 @@ class IssuePriority
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @ORM\Id
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     private $name;
 
@@ -53,16 +61,18 @@ class IssuePriority
     /**
      * @var string
      *
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="priority_order", type="integer")
      */
-    protected $order;
+    protected $priorityOrder;
 
     /**
-     * @param string $name
+     * @param string|null $name
      */
-    public function __construct($name)
+    public function __construct($name = null)
     {
-        $this->name = $name;
+        if (!empty($name)) {
+            $this->name = $name;
+        }
     }
 
     /**
@@ -72,11 +82,24 @@ class IssuePriority
      */
     public function getName()
     {
-        return $this->name;
+        return $this->__toString();
     }
 
     /**
-     * Set address type label
+     * Set name
+     *
+     * @param string $name
+     * @return IssuePriority
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Set label
      *
      * @param string $label
      * @return IssuePriority
@@ -89,7 +112,7 @@ class IssuePriority
     }
 
     /**
-     * Get address type label
+     * Get label
      *
      * @return string
      */
@@ -130,25 +153,25 @@ class IssuePriority
     }
 
     /**
-     * Set entity order
+     * Set entity priorityOrder
      *
-     * @param integer $order
+     * @param integer $priorityOrder
      * @return IssuePriority
      */
-    public function setOrder($order)
+    public function setPriorityOrder($priorityOrder)
     {
-        $this->order = $order;
+        $this->priorityOrder = $priorityOrder;
 
         return $this;
     }
 
     /**
-     * Get entity order
+     * Get entity priorityOrder
      *
      * @return integer
      */
-    public function getOrder()
+    public function getPriorityOrder()
     {
-        return $this->order;
+        return $this->priorityOrder;
     }
 }

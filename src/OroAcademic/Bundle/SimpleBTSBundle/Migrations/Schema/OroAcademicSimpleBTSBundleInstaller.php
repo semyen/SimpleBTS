@@ -50,8 +50,6 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
     {
         $table = $schema->createTable('oro_issue');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('workflow_item_id', 'integer', ['notnull' => false]);
-        $table->addColumn('workflow_step_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_resolution_id', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('assignee_id', 'integer', ['notnull' => false]);
         $table->addColumn('issue_priority_id', 'string', ['notnull' => false, 'length' => 255]);
@@ -59,6 +57,8 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
         $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('parent_id', 'integer', ['notnull' => false]);
         $table->addColumn('reporter_id', 'integer', ['notnull' => false]);
+        $table->addColumn('workflow_item_id', 'integer', ['notnull' => false]);
+        $table->addColumn('workflow_step_id', 'integer', ['notnull' => false]);
         $table->addColumn('summary', 'string', ['length' => 255]);
         $table->addColumn('code', 'string', ['length' => 50]);
         $table->addColumn('description', 'text', ['notnull' => false]);
@@ -103,7 +103,7 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
         $table = $schema->createTable('oro_issue_priority');
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('label', 'string', ['length' => 255]);
-        $table->addColumn('order', 'integer', []);
+        $table->addColumn('priority_order', 'integer', []);
         $table->setPrimaryKey(['name']);
         $table->addUniqueIndex(['label'], 'UNIQ_127D4E75EA750E8');
     }
@@ -182,18 +182,6 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
     {
         $table = $schema->getTable('oro_issue');
         $table->addForeignKeyConstraint(
-            $schema->getTable('oro_workflow_item'),
-            ['workflow_item_id'],
-            ['id'],
-            ['onDelete' => 'SET NULL', 'onUpdate' => null]
-        );
-        $table->addForeignKeyConstraint(
-            $schema->getTable('oro_workflow_step'),
-            ['workflow_step_id'],
-            ['id'],
-            ['onDelete' => 'SET NULL', 'onUpdate' => null]
-        );
-        $table->addForeignKeyConstraint(
             $schema->getTable('oro_issue_resolut'),
             ['issue_resolution_id'],
             ['name'],
@@ -234,6 +222,18 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
             ['reporter_id'],
             ['id'],
             ['onDelete' => null, 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_workflow_item'),
+            ['workflow_item_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_workflow_step'),
+            ['workflow_step_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
     }
 

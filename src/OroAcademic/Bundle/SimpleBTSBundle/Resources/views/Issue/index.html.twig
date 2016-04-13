@@ -2,13 +2,22 @@
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 
 {% set gridName = 'oro_academic_sbts_issue_datagrid' %}
-{% set entity_class = 'oro_academic_sbts.entity.issue.class' %}
-
 {% set pageTitle = 'oroacademic.simplebts.issue.dashboard.page.title'|trans %}
 
 {% block navButtons %}
-    {{ UI.addButton({
-        'path' : path('oro_academic_sbts_issue_create'),
-        'entity_label': 'oroacademic.simplebts.issue.label'|trans
-    }) }}
+    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+        entity_class: entity_class,
+        exportProcessor: 'oro_academic_sbts',
+        exportTemplateProcessor: 'oro_academic_sbts',
+        importProcessor: 'oro_academic_sbts.add_or_replace',
+        importTitle: 'oroacademic.simplebts.issue.importexport.import'|trans,
+        dataGridName: gridName
+    } %}
+
+    <div class="btn-group">
+        {{ UI.addButton({
+            'path' : path('oro_academic_sbts_issue_create'),
+            'entity_label': 'oroacademic.simplebts.issue.label'|trans
+        }) }}
+    </div>
 {% endblock %}

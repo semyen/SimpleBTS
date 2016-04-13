@@ -5,6 +5,7 @@ namespace OroAcademic\Bundle\SimpleBTSBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
  * IssueResolution
@@ -37,6 +38,13 @@ class IssueResolution
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @ORM\Id
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     private $name;
 
@@ -54,11 +62,13 @@ class IssueResolution
     protected $locale;
 
     /**
-     * @param string $name
+     * @param string|null $name
      */
-    public function __construct($name)
+    public function __construct($name = null)
     {
-        $this->name = $name;
+        if (!empty($name)) {
+            $this->name = $name;
+        }
     }
 
     /**
@@ -68,7 +78,7 @@ class IssueResolution
      */
     public function getName()
     {
-        return $this->name;
+        return $this->__toString();
     }
 
     /**

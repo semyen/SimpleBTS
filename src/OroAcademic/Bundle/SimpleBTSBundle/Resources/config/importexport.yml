@@ -1,0 +1,79 @@
+parameters:
+    oro_academic_sbts.importexport.normalizer.issue.class:               OroAcademic\Bundle\SimpleBTSBundle\ImportExport\Serializer\Normalizer\IssueNormalizer
+    oro_academic_sbts.importexport.strategy.issue.add_or_replace.class:  OroAcademic\Bundle\SimpleBTSBundle\ImportExport\Strategy\IssueAddOrReplaceStrategy
+    oro_academic_sbts.importexport.strategy.issue.add.class:             OroAcademic\Bundle\SimpleBTSBundle\ImportExport\Strategy\IssueAddStrategy
+    oro_academic_sbts.importexport.template_fixture.issue.class:         OroAcademic\Bundle\SimpleBTSBundle\ImportExport\TemplateFixture\IssueFixture
+    oro_academic_sbts.importexport.template_fixture.priority.class:      OroAcademic\Bundle\SimpleBTSBundle\ImportExport\TemplateFixture\IssuePriorityFixture
+    oro_academic_sbts.importexport.template_fixture.resolution.class:    OroAcademic\Bundle\SimpleBTSBundle\ImportExport\TemplateFixture\IssueResolutionFixture
+
+services:
+    oro_academic_sbts.importexport.template_fixture.issue:
+        class: '%oro_academic_sbts.importexport.template_fixture.issue.class%'
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_academic_sbts.importexport.template_fixture.priority:
+        class: '%oro_academic_sbts.importexport.template_fixture.priority.class%'
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    oro_academic_sbts.importexport.template_fixture.resolution:
+        class: '%oro_academic_sbts.importexport.template_fixture.resolution.class%'
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    # Normalizers
+    orocrm_contact.importexport.normalizer.contact:
+        class: '%oro_academic_sbts.importexport.normalizer.issue.class%'
+        parent: oro_importexport.serializer.configurable_entity_normalizer
+        tags:
+            - { name: oro_importexport.normalizer }
+
+    # Converter
+    oro_academic_sbts.importexport.data_converter.issue:
+        parent: oro_importexport.data_converter.configurable
+
+    oro_academic_sbts.importexport.template_fixture.data_converter.issue:
+        parent: oro_importexport.data_converter.template_fixture.configurable
+
+    # Strategy
+    oro_academic_sbts.importexport.strategy.issue.add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    oro_academic_sbts.importexport.strategy.issue.add:
+        class: '%oro_academic_sbts.importexport.strategy.issue.add.class%'
+        parent: oro_importexport.strategy.add
+
+    # Import processor
+    oro_academic_sbts.importexport.processor.import.add_or_replace:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+             - [setDataConverter, ['@oro_academic_sbts.importexport.data_converter.issue']]
+             - [setStrategy, ['@oro_academic_sbts.importexport.strategy.issue.add_or_replace']]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: '%oro_academic_sbts.entity.issue.class%', alias: oro_academic_sbts.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: '%oro_academic_sbts.entity.issue.class%', alias: oro_academic_sbts.add_or_replace }
+
+    oro_academic_sbts.importexport.processor.import.add:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+             - [setDataConverter, ['@oro_academic_sbts.importexport.data_converter.issue']]
+             - [setStrategy, ['@oro_academic_sbts.importexport.strategy.issue.add']]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: '%oro_academic_sbts.entity.issue.class%', alias: oro_academic_sbts.add }
+            - { name: oro_importexport.processor, type: import_validation, entity: '%oro_academic_sbts.entity.issue.class%', alias: oro_academic_sbts.add }
+
+    # Export processor
+    oro_academic_sbts.importexport.processor.export:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@oro_academic_sbts.importexport.data_converter.issue']]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: '%oro_academic_sbts.entity.issue.class%', alias: oro_academic_sbts }
+
+    oro_academic_sbts.importexport.processor.export_template:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, ['@oro_academic_sbts.importexport.template_fixture.data_converter.issue']]
+        tags:
+            - { name: oro_importexport.processor, type: export_template, entity: '%oro_academic_sbts.entity.issue.class%', alias: oro_academic_sbts }

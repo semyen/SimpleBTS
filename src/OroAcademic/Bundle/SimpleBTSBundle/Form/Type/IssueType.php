@@ -11,9 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class IssueType extends AbstractType
 {
     const BUG = 'bug';
+    const STORY = 'story';
     const SUB_TASK = 'sub_task';
     const TASK = 'task';
-    const STORY = 'story';
 
     /**
      * {@inheritdoc}

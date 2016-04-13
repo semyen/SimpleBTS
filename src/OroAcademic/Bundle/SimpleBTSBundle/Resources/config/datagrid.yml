@@ -70,7 +70,7 @@ datagrid:
                 type:
                     data_name: issue.getType
                 priorityLabel:
-                    data_name: priority.order
+                    data_name: priority.priorityOrder
                 workflowStepLabel:
                     data_name: workflowStep.stepOrder
                 resolutionLabel:
@@ -185,7 +185,7 @@ datagrid:
                 from:
                     - { table: '%oro_academic_sbts.entity.issue.class%', alias: issue }
                 join:
-                    left:
+                    inner:
                         - { join: issue.collaborators , alias: collaborators }
                 where:
                     and:

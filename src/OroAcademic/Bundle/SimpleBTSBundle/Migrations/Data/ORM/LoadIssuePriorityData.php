@@ -18,11 +18,11 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
      */
 
     protected $issuePriorities = [
-        IssuePriority::BLOCKER,
-        IssuePriority::CRITICAL,
-        IssuePriority::MAJOR,
-        IssuePriority::MINOR,
-        IssuePriority::TRIVIAL
+        10 => IssuePriority::BLOCKER,
+        20 => IssuePriority::CRITICAL,
+        30 => IssuePriority::MAJOR,
+        40 => IssuePriority::MINOR,
+        50 => IssuePriority::TRIVIAL
     ];
 
     /**
@@ -35,7 +35,7 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
         $translationLocales = $this->getTranslationLocales();
 
         foreach ($translationLocales as $locale) {
-            foreach ($this->issuePriorities as $priorityName) {
+            foreach ($this->issuePriorities as $order => $priorityName) {
                 $issuePriority = $issuePriorityRepository->findOneBy(['name' => $priorityName]);
                 if (!$issuePriority) {
                     $issuePriority = new IssuePriority($priorityName);
@@ -44,7 +44,8 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
                 $issuePriorityLabel = $this->translate($priorityName, static::ISSUE_PRIORITY_PREFIX, $locale);
                 $issuePriority
                     ->setLocale($locale)
-                    ->setLabel($issuePriorityLabel);
+                    ->setLabel($issuePriorityLabel)
+                    ->setPriorityOrder($order);
 
                 $manager->persist($issuePriority);
             }

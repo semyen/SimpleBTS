@@ -20,7 +20,7 @@ class IssueController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => $this->container->getParameter('oro_academic_sbts.form.type.issue.class')
+            'entity_class' => Issue::class
         ];
     }
 
