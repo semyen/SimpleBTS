@@ -4,6 +4,7 @@ datagrid:
         entity_class: '%oro_academic_sbts.entity.issue.class%'
         source:
             type: orm
+            acl_resource: oro_academic_sbts_issue_view
             query:
                 select:
                     - issue.id
@@ -150,16 +151,19 @@ datagrid:
                 icon:          eye-open
                 link:          view_link
                 rowAction:     true
+                acl_resource:  oro_academic_sbts_issue_view
             update:
                 type:          navigate
                 label:         oro.grid.action.update
                 icon:          edit
                 link:          update_link
+                acl_resource:  oro_academic_sbts_issue_view
             delete:
                 type:          delete
                 label:         oro.grid.action.delete
                 icon:          trash
                 link:          delete_link
+                acl_resource:  oro_academic_sbts_issue_view
         options:
             entity_pagination: true
 
@@ -178,6 +182,7 @@ datagrid:
     oro_academic_sbts_issue_collaborators_datagrid:
         source:
             type: orm
+            acl_resource: oro_academic_sbts_issue_view
             query:
                 select:
                     - collaborators.id

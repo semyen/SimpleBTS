@@ -37,9 +37,13 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *          },
  *          "workflow"={
  *              "active_workflow"="issue_workflow"
+ *          },
+ *          "security"={
+ *              "type"="ACL"
  *          }
  *      }
  * )
+ *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ShortVariable)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)

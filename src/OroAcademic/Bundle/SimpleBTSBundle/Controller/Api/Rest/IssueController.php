@@ -169,12 +169,7 @@ class IssueController extends RestController implements ClassResourceInterface
      *      description="Delete issue",
      *      resource=true
      * )
-     * @Acl(
-     *      id="oro_academic_sbts_issue_delete",
-     *      type="entity",
-     *      permission="DELETE",
-     *      class="OroAcademicSimpleBTSBundle:Issue"
-     * )
+     * @AclAncestor("oro_academic_sbts_issue_delete")
      * @return Response
      */
     public function deleteAction($id)

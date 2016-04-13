@@ -7,13 +7,13 @@
 {% oro_title_set({params : {"%entityCode%": entity.code}}) %}
 
 {% block navButtons %}
-    {% if resource_granted('EDIT', entity) %}
+    {% if resource_granted('oro_academic_sbts_issue_update') %}
         {{ UI.editButton({
             'path' : path('oro_academic_sbts_issue_update', { id: entity.id }),
             'entity_label': 'oroacademic.simplebts.issue.label'|trans
         }) }}
     {% endif %}
-    {% if resource_granted('DELETE', entity) %}
+    {% if resource_granted('oro_academic_sbts_issue_delete') %}
         {% set idButton = 'btn-remove-issue' %}
         {{ UI.button({
             'path':  path('oro_academic_sbts_issue_delete', {'id': entity.id}),
@@ -30,7 +30,7 @@
             subTasksCount: entity.getChildren()|length
         } %}
     {% endif %}
-    {% if resource_granted('CREATE', entity) %}
+    {% if resource_granted('oro_academic_sbts_issue_create') %}
         {% if entity.isStory() %}
             {{ UI.button({
                 'path' : path('oro_academic_sbts_issue_create', { 'parentId': entity.id }),

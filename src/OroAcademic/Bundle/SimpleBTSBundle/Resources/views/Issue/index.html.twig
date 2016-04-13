@@ -5,19 +5,23 @@
 {% set pageTitle = 'oroacademic.simplebts.issue.dashboard.page.title'|trans %}
 
 {% block navButtons %}
-    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
-        entity_class: entity_class,
-        exportProcessor: 'oro_academic_sbts',
-        exportTemplateProcessor: 'oro_academic_sbts',
-        importProcessor: 'oro_academic_sbts.add_or_replace',
-        importTitle: 'oroacademic.simplebts.issue.importexport.import'|trans,
-        dataGridName: gridName
-    } %}
+    {% if resource_granted('oro_academic_sbts_issue_view') %}
+        {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+            entity_class: entity_class,
+            exportProcessor: 'oro_academic_sbts',
+            exportTemplateProcessor: 'oro_academic_sbts',
+            importProcessor: 'oro_academic_sbts.add_or_replace',
+            importTitle: 'oroacademic.simplebts.issue.importexport.import'|trans,
+            dataGridName: gridName
+        } %}
+    {% endif %}
 
-    <div class="btn-group">
-        {{ UI.addButton({
-            'path' : path('oro_academic_sbts_issue_create'),
-            'entity_label': 'oroacademic.simplebts.issue.label'|trans
-        }) }}
-    </div>
+    {% if resource_granted('oro_academic_sbts_issue_create') %}
+        <div class="btn-group">
+            {{ UI.addButton({
+                'path' : path('oro_academic_sbts_issue_create'),
+                'entity_label': 'oroacademic.simplebts.issue.label'|trans
+            }) }}
+        </div>
+    {% endif %}
 {% endblock %}

@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Oro\Bundle\SecurityBundle\Annotation\Acl;
+use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
 class IssueController extends Controller
 {
@@ -16,6 +18,7 @@ class IssueController extends Controller
      * @Route("/", name="oro_academic_sbts_issue_index")
      * @Template()
      * @return RedirectResponse
+     * @AclAncestor("oro_academic_sbts_issue_view")
      */
     public function indexAction()
     {
@@ -29,6 +32,12 @@ class IssueController extends Controller
      * @Template()
      * @param Issue $entity
      * @return array
+     * @Acl(
+     *      id="oro_academic_sbts_issue_view",
+     *      type="entity",
+     *      class="OroAcademicSimpleBTSBundle:Issue",
+     *      permission="VIEW"
+     * )
      */
     public function viewAction(Issue $entity)
     {
@@ -42,6 +51,12 @@ class IssueController extends Controller
      * @Template("OroAcademicSimpleBTSBundle:Issue:update.html.twig")
      * @param Request $request
      * @return RedirectResponse
+     * @Acl(
+     *      id="oro_academic_sbts_issue_create",
+     *      type="entity",
+     *      class="OroAcademicSimpleBTSBundle:Issue",
+     *      permission="CREATE"
+     * )
      */
     public function createAction(Request $request)
     {
@@ -86,6 +101,7 @@ class IssueController extends Controller
      * @param Issue $issue
      * @param Request $request
      * @return RedirectResponse
+     * @AclAncestor("oro_academic_sbts_issue_create")
      */
     public function updateAction(Issue $issue, Request $request)
     {
@@ -99,6 +115,12 @@ class IssueController extends Controller
      * @Template()
      * @param Issue $issue
      * @return RedirectResponse
+     * @Acl(
+     *      id="oro_academic_sbts_issue_delete",
+     *      type="entity",
+     *      class="OroAcademicSimpleBTSBundle:Issue",
+     *      permission="DELETE"
+     * )
      */
     public function deleteAction(Issue $issue)
     {
