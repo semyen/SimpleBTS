@@ -4,6 +4,7 @@ oroacademic:
             label: Issue
             entity_label: Issue
             plural.label: Issues
+            entity_plural_label: Issues
             assignee.label: Assignee
             children.label: Children
             code.label: Code

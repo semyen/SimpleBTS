@@ -1,0 +1,87 @@
+OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue:
+    alias: oro_academic_sbts_issue_search
+    search_template: OroAcademicSimpleBTSBundle:Issue:Search/result.html.twig
+    label: oroacademic.simplebts.issue.plural.label
+    route:
+        name: oro_academic_sbts_issue_view
+        parameters:
+            id: id
+    mode: normal
+    title_fields: [code, summary]
+    fields:
+        -
+            name: code
+            target_type: text
+            target_fields: [code]
+        -
+            name: summary
+            target_type: text
+            target_fields: [summary]
+        -
+            name: description
+            target_type: text
+            target_fields: [description]
+        -
+            name: type
+            target_type: text
+            target_fields: [type]
+        -
+            name: priority
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [priority]
+        -
+            name: workflowStep
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [workflowStep]
+        -
+            name: resolution
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: label
+                    target_type: text
+                    target_fields: [label, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [resolution]
+        -
+            name: reporter
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: username
+                    target_type: text
+                    target_fields: [username, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [reporter]
+        -
+            name: assignee
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: username
+                    target_type: text
+                    target_fields: [username, all_data]
+                -
+                    name: id
+                    target_type: integer
+                    target_fields: [assignee]

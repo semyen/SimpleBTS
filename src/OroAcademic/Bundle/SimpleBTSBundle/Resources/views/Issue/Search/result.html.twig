@@ -1,0 +1,24 @@
+{#
+    Available variables:
+    * entity       - user entity OroAcademic\Bundle\SimpleBTSBundle\Entity/Issue or null
+    * indexer_item - indexer item Oro\Bundle\SearchBundle\Query\Result\Item
+#}
+
+{% extends 'OroSearchBundle:Search:searchResultItem.html.twig' %}
+
+{% set recordUrl = indexer_item.recordUrl %}
+{% set title = entity ? entity.code ~ ": " ~ entity.summary : indexer_item.recordTitle %}
+
+{% set entityType = 'oroacademic.simplebts.issue.entity_label'|trans %}
+{% set showImage = false %}
+{% set image = null %}
+{% set entityInfo = [
+    {'title': 'oroacademic.simplebts.issue.type.label'|trans, 'value': entity.type ? entity.type : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.priority.label'|trans, 'value': entity.priority ? entity.priority.label : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.workflow_step.label'|trans, 'value': entity.workflowStep ? entity.workflowStep.label : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.resolution.label'|trans, 'value': entity.resolution ? entity.resolution.label : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.reporter.label'|trans, 'value': entity.reporter ? entity.reporter : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.assignee.label'|trans, 'value': entity.assignee ? entity.assignee : 'N/A'},
+    {'title': 'oro.ui.created_at'|trans, 'value': entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A'},
+    {'title': 'oro.ui.updated_at'|trans, 'value': entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A'},
+] %}
