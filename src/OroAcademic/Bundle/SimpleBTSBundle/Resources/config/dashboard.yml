@@ -1,0 +1,14 @@
+oro_dashboard_config:
+    widgets:
+        active_issues:
+            label:            oroacademic.simplebts.issue.dashboard.active_issues.label
+            description:      oroacademic.simplebts.issue.dashboard.active_issues.description
+            route:            oro_dashboard_widget
+            route_parameters: { bundle: OroAcademicSimpleBTSBundle, name: activeIssues }
+            acl:              oro_academic_sbts_issue_view
+        issues_by_status:
+            label:       oroacademic.simplebts.issue.dashboard.issues_by_status.label
+            description: oroacademic.simplebts.issue.dashboard.issues_by_status.description
+            route:       oro_academic_sbts_dashboard_issue_by_status
+            acl:         oro_academic_sbts_dashboard_issue_by_status
+

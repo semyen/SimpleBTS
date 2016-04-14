@@ -11,3 +11,8 @@ oro_academic_sbts_api:
         version:  latest|v1
     defaults:
         version:  latest
+
+oro_academic_sbts_dashboard:
+    resource:     "@OroAcademicSimpleBTSBundle/Controller/Dashboard"
+    type:         annotation
+    prefix:       /dashboard

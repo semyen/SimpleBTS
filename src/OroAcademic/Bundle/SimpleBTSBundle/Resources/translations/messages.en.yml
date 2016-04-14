@@ -45,6 +45,13 @@ oroacademic:
             dashboard:
                 page:
                     title: Issues
+                issues_by_status:
+                    label: Issues by status
+                    description: Bar chart widget for issues by status
+                active_issues:
+                    label: Last 10 active issues
+                    description: Widget with grid with last 10 active issues for current user (where user is collaborator).
+                    view_all.label: View all
 
             list: ~
 

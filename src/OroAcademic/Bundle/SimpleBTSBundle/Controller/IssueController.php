@@ -28,6 +28,19 @@ class IssueController extends Controller
     }
 
     /**
+     * @Route("/active/full/view", name="oro_academic_sbts_issue_active_full_view")
+     * @Template()
+     * @return RedirectResponse
+     * @AclAncestor("oro_academic_sbts_issue_view")
+     */
+    public function activeFullViewAction()
+    {
+        return [
+            'entity_class' => Issue::class,
+        ];
+    }
+
+    /**
      * @Route("/view/{id}", name="oro_academic_sbts_issue_view", requirements={"id"="\d+"})
      * @Template()
      * @param Issue $entity

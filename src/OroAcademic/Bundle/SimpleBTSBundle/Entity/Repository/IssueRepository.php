@@ -3,6 +3,8 @@
 namespace OroAcademic\Bundle\SimpleBTSBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
+use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -49,5 +51,43 @@ class IssueRepository extends EntityRepository
         }
 
         return false;
+    }
+
+    /**
+     * Returns top $limit opportunities grouped by lead source
+     *
+     * @param  AclHelper $aclHelper
+     * @param array $workflowSteps
+     * @return array     [count, label]
+     */
+    public function getIssueByStatus(AclHelper $aclHelper, $workflowSteps)
+    {
+        $result = [];
+
+        $queryBuilder = $this->createQueryBuilder('i')
+            ->select('w.name AS label', 'COUNT(i.id) AS cnt')
+            ->Join('i.workflowStep', 'w')
+            ->groupBy('label')
+        ;
+
+        $rows = $aclHelper->apply($queryBuilder)->getArrayResult();
+
+        if (!empty($workflowSteps) && !empty($rows)) {
+            foreach ($workflowSteps as $workflowStep) {
+                $count = 0;
+                foreach ($rows as $row) {
+                    /** @var WorkflowStep $workflowStep */
+                    if (!empty($row['label'] == $workflowStep->getName())) {
+                        $count = $row['cnt'];
+                    }
+                }
+                $result[$workflowStep->getName()] = [
+                    'label' => $workflowStep->getLabel(),
+                    'count' => $count
+                ];
+            }
+        }
+
+        return $result;
     }
 }

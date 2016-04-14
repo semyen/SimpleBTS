@@ -1,0 +1,16 @@
+{% extends 'OroDashboardBundle:Dashboard:widget.html.twig' %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+{% block content %}
+    {{ dataGrid.renderGrid('oro_academic_sbts_active_issue_datagrid') }}
+{% endblock %}
+
+{% block actions %}
+    {% set actions = [{
+    'url': path('oro_academic_sbts_issue_active_full_view'),
+    'type': 'link',
+    'label': 'oroacademic.simplebts.issue.dashboard.active_issues.view_all.label'|trans
+    }] %}
+
+    {{ parent() }}
+{% endblock %}
