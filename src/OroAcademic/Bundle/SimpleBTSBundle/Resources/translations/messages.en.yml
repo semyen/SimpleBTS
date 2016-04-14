@@ -10,6 +10,7 @@ oroacademic:
             code.label: Code
             collaborators.label: Collaborators
             createdAt.label: Created
+            created_at.label: Created
             description.label: Description
             id.label: Id
             notes.label: Notes
@@ -17,6 +18,8 @@ oroacademic:
             owner.label: Owner
             parent.label: Parent
             priority.label: Priority
+            priority_label.label: Priority
+            priority_priority_order.label: Order
             related_issues.label: Related Issues
             reporter.label: Reporter
             resolution.label: Resolution
@@ -25,6 +28,7 @@ oroacademic:
             tags.label: Tags
             type.label: Type
             updatedAt.label: Updated
+            updated_at.label: Updated
             workflow_item.label: Workflow Item
             workflow_step.label: Workflow Step
             workflow_status.label: Status
@@ -68,10 +72,13 @@ oroacademic:
 
         issuepriority:
             entity_label: Issue Priority
+            label.label: Label
+            priority_order.label: Order
             id.label: Id
             name.label: Name
         issueresolution:
             entity_label: Issue Resolution
+            label.label: Label
             id.label: Id
             name.label: Name
         issuetype:
