@@ -7,7 +7,7 @@
     {{ UI.buttonSeparator() }}
 
     {% set html = UI.saveAndCloseButton() %}
-    {% if resource_granted('oro_academic_sbts_issue_update') %}
+    {% if resource_granted('oro_academic_sbts_issue_create') %}
         {% set html = html ~ UI.saveAndStayButton() %}
     {% endif %}
     {{ UI.dropdownSaveButton({'html': html}) }}

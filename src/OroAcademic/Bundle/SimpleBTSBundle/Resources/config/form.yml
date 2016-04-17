@@ -24,6 +24,7 @@ services:
             - '@oro_academic_sbts.form.issue'
             - '@request'
             - '@doctrine.orm.entity_manager'
+            - '@oro_entity.routing_helper'
         tags:
             - { name: oro_tag.tag_manager }
 
@@ -49,5 +50,6 @@ services:
             - '@oro_academic_sbts.form.issue.api'
             - '@request'
             - '@doctrine.orm.entity_manager'
+            - '@oro_entity.routing_helper'
         tags:
             - { name: oro_tag.tag_manager }

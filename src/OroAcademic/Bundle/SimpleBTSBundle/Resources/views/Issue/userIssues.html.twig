@@ -1,0 +1,16 @@
+{% if resource_granted('oro_academic_sbts_issue_view') %}
+    {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+
+    <div class="responsive-cell">
+        <div class="box-type1">
+            <div class="title">
+                <span class="widget-title">{{ "oroacademic.simplebts.issue.assigned_to_user.label"|trans }}</span>
+            </div>
+
+            <div class="row-fluid">
+                {{ dataGrid.renderGrid('oro_academic_sbts_user_issues_datagrid', {'userId': entity.id}) }}
+            </div>
+        </div>
+    </div>
+{% endif %}
+

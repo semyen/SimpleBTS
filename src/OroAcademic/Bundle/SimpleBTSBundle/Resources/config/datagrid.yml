@@ -280,3 +280,21 @@ datagrid:
         options:
             toolbarOptions:
                 hide: true
+
+    oro_academic_sbts_user_issues_datagrid:
+        extends: oro_academic_sbts_issue_datagrid
+        source:
+            query:
+                where:
+                    or:
+                        - issue.assignee = :userId
+                        - issue.reporter = :userId
+            bind_parameters:
+                - userId
+        filters: ~
+        options:
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10

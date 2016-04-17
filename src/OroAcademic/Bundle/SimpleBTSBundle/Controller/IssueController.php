@@ -41,6 +41,20 @@ class IssueController extends Controller
     }
 
     /**
+     * @Route("/user/issues/{userId}", name="oro_academic_sbts_issue_user_issues", requirements={"userId"="\d+"})
+     * @Template()
+     * @param int $userId
+     * @return array
+     * @AclAncestor("oro_academic_sbts_issue_view")
+     */
+    public function userIssuesAction($userId)
+    {
+        return [
+            'userId' => $userId,
+        ];
+    }
+
+    /**
      * @Route("/view/{id}", name="oro_academic_sbts_issue_view", requirements={"id"="\d+"})
      * @Template()
      * @param Issue $entity
@@ -105,7 +119,7 @@ class IssueController extends Controller
             )
         ;
 
-        return $this->update($issue, $formAction);
+        return $this->update($issue, $formAction, $request);
     }
 
     /**
@@ -120,7 +134,7 @@ class IssueController extends Controller
     {
         $formAction = $request->getUri();
 
-        return $this->update($issue, $formAction);
+        return $this->update($issue, $formAction, $request);
     }
 
     /**
@@ -145,9 +159,10 @@ class IssueController extends Controller
     /**
      * @param Issue $issue
      * @param string $formAction
+     * @param Request $request
      * @return array|RedirectResponse
      */
-    private function update(Issue $issue, $formAction)
+    private function update(Issue $issue, $formAction, Request $request)
     {
         if ($this->get('oro_academic_sbts.form.handler.issue')->process($issue)) {
             $this->get('session')->getFlashBag()->add(
@@ -155,11 +170,20 @@ class IssueController extends Controller
                 $this->get('translator')->trans('oroacademic.simplebts.issue.form.saved')
             );
 
-            return $this->get('oro_ui.router')->redirectAfterSave(
-                ['route' => 'oro_academic_sbts_issue_update', 'parameters' => ['id' => $issue->getId()]],
-                ['route' => 'oro_academic_sbts_issue_index'],
-                $issue
-            );
+            if (!$request->get('_widgetContainer')) {
+                return $this->get('oro_ui.router')->redirectAfterSave(
+                    ['route' => 'oro_academic_sbts_issue_update', 'parameters' => ['id' => $issue->getId()]],
+                    ['route' => 'oro_academic_sbts_issue_index'],
+                    $issue
+                );
+            } else {
+                return array(
+                    'issue'  => $issue,
+                    'form'    => $this->get('oro_academic_sbts.form.issue')->createView(),
+                    'formAction' => $formAction,
+                    'result'  => 'success',
+                );
+            }
         }
 
         return array(

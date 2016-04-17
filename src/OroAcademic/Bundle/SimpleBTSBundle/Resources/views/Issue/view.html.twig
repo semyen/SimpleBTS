@@ -7,7 +7,7 @@
 {% oro_title_set({params : {"%entityCode%": entity.code}}) %}
 
 {% block navButtons %}
-    {% if resource_granted('oro_academic_sbts_issue_update') %}
+    {% if resource_granted('oro_academic_sbts_issue_create') %}
         {{ UI.editButton({
             'path' : path('oro_academic_sbts_issue_update', { id: entity.id }),
             'entity_label': 'oroacademic.simplebts.issue.label'|trans

@@ -1,0 +1,24 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{{ UI.clientButton({
+    'dataUrl': path('oro_academic_sbts_issue_create', oro_action_params(entity)),
+    'aCss': 'no-hash btn-primary',
+    'dataId': entity.id,
+    'label': 'oroacademic.simplebts.issue.user.button.create_issue.label'|trans,
+    'title': 'oroacademic.simplebts.issue.user.button.create_issue.title'|trans,
+    'widget' : {
+        'type' : 'dialog',
+        'multiple' : false,
+        'reload-grid-name' : 'user_issues_grid',
+        'options' : {
+            'alias': 'create-issue-dialog',
+            'dialogOptions' : {
+                'title' : 'oroacademic.simplebts.issue.user.widget.title'|trans({'%username%': entity|oro_format_name}),
+                'allowMaximize': true,
+                'allowMinimize': true,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 1000
+            }
+        }
+    }
+}) }}

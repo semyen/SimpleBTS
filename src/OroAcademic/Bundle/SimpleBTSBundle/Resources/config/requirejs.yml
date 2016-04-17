@@ -1,0 +1,3 @@
+config:
+    paths:
+        'oro_academic_sbts/js/app/component/create-issue': 'bundles/oroacademicsimplebts/js/app/component/create-issue.js'

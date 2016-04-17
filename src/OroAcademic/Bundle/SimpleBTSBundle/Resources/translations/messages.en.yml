@@ -32,6 +32,7 @@ oroacademic:
             workflow_item.label: Workflow Item
             workflow_step.label: Workflow Step
             workflow_status.label: Status
+            assigned_to_user.label: Issues
 
             form:
                 saved: Issue was successfully saved.
@@ -57,8 +58,6 @@ oroacademic:
                     description: Widget with grid with last 10 active issues for current user (where user is collaborator).
                     view_all.label: View all
 
-            list: ~
-
             view:
                 button:
                     create_subtask: Create Sub-Task
@@ -69,6 +68,12 @@ oroacademic:
 
             importexport:
                 import: Import Issues
+
+            user:
+                button:
+                    create_issue.label: Create issue
+                    create_issue.title: Create issue
+                widget.title: Create issue for %username%
 
         issuepriority:
             entity_label: Issue Priority
