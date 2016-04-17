@@ -1,0 +1,32 @@
+oro_titles:
+    oro_academic_sbts_issue_index: 'oroacademic.simplebts.issue.plural.label'
+    oro_academic_sbts_issue_view: 'Issue %%entityCode%%'
+    oro_academic_sbts_issue_create: oro.ui.create_entity
+    oro_academic_sbts_issue_update: 'Update %%entityCode%%'
+
+oro_menu_config:
+    items:
+        issues_tab:
+            label: 'oroacademic.simplebts.issue.entity_plural_label'
+            uri: '#'
+            extras:
+                position: 10
+                icon: icon-puzzle-piece
+        issue_index:
+            label: 'oroacademic.simplebts.issue.plural.label'
+            route: 'oro_academic_sbts_issue_index'
+            extras:
+                position: 10
+        issue_create:
+            label: 'oroacademic.simplebts.issue.menu.create'
+            route: 'oro_academic_sbts_issue_create'
+            extras:
+                position: 20
+
+    tree:
+        application_menu:
+            children:
+                issues_tab:
+                    children:
+                        issue_index: ~
+                        issue_create: ~

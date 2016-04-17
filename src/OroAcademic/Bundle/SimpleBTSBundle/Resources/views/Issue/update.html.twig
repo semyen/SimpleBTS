@@ -1,7 +1,7 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
 
-{% oro_title_set({params : {"%issueCode%": issue.code, "%issueName%": 'oroacademic.simplebts.issue.label'|trans }}) %}
+{% oro_title_set({params : {"%entityCode%": issue.code, "%entityName%": 'oroacademic.simplebts.issue.label'|trans }}) %}
 
 {% block navButtons %}
     {{ UI.buttonSeparator() }}

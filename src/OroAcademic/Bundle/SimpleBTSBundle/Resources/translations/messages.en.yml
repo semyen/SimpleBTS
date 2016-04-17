@@ -75,6 +75,9 @@ oroacademic:
                     create_issue.title: Create issue
                 widget.title: Create issue for %username%
 
+            menu:
+                create: Create Issue
+
         issuepriority:
             entity_label: Issue Priority
             label.label: Label
