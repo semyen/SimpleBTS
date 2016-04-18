@@ -5,7 +5,7 @@ namespace OroAcademic\Bundle\SimpleBTSBundle\Datagrid\Action\Issue;
 use Oro\Bundle\DataGridBundle\Extension\Action\ActionConfiguration;
 use Oro\Bundle\DataGridBundle\Extension\Action\Actions\AjaxAction;
 
-class DeleteAction extends AjaxAction
+class UnlinkAction extends AjaxAction
 {
     /**
      * @return ActionConfiguration
@@ -13,7 +13,7 @@ class DeleteAction extends AjaxAction
     public function getOptions()
     {
         $options = parent::getOptions();
-        $options['frontend_type'] = 'issue-delete';
+        $options['frontend_type'] = 'unlink';
 
         return $options;
     }

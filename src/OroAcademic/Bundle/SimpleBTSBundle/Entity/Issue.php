@@ -681,6 +681,36 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
+     * Add related issue
+     *
+     * @param Issue $issue
+     * @return Issue
+     */
+    public function addRelatedIssue(Issue $issue)
+    {
+        if (!$this->relatedIssues->contains($issue)) {
+            $this->relatedIssues->add($issue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove related issue
+     *
+     * @param Issue $issue
+     * @return Issue
+     */
+    public function removeRelatedIssue(Issue $issue)
+    {
+        if ($this->relatedIssues->contains($issue)) {
+            $this->relatedIssues->removeElement($issue);
+        }
+
+        return $this;
+    }
+
+    /**
      * Set collaborators
      *
      * @param ArrayCollection $collaborators

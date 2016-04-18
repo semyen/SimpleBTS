@@ -5,6 +5,7 @@ parameters:
     oro_academic_sbts.entity.issue.priority.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority
     oro_academic_sbts.entity.issue.resolution.class: OroAcademic\Bundle\SimpleBTSBundle\Entity\IssueResolution
     oro_academic_sbts.datagrid.action.issue.delete.class: OroAcademic\Bundle\SimpleBTSBundle\Datagrid\Action\Issue\DeleteAction
+    oro_academic_sbts.datagrid.action.issue.unlink.class: OroAcademic\Bundle\SimpleBTSBundle\Datagrid\Action\Issue\UnlinkAction
     doctrine.orm.entity_repository.class: Doctrine\ORM\EntityRepository
 
    # Workflow conditions
@@ -30,3 +31,8 @@ services:
         tags:
             - { name: oro_workflow.condition, alias: instanceof }
 
+    oro_academic_sbts.datagrid.action.issue.unlink:
+        class: '%oro_academic_sbts.datagrid.action.issue.unlink.class%'
+        scope: prototype
+        tags:
+            - { name: oro_datagrid.extension.action.type, type: unlink }

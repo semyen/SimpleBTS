@@ -3,6 +3,7 @@ oroacademic:
         issue:
             label: Issue
             entity_label: Issue
+            link_entity.label: Link
             plural.label: Issues
             entity_plural_label: Issues
             assignee.label: Assignee
@@ -42,6 +43,7 @@ oroacademic:
                     sub_task.label: Sub Task
                     task.label: Task
                     story.label: Story
+                select_issue.label: Select Issue
                 title:
                     create: Create Issue
                 parent_not_found: Parent issue not found
@@ -61,10 +63,14 @@ oroacademic:
             view:
                 button:
                     create_subtask: Create Sub-Task
+                    link: Link Issue
                 block:
                     general: General Information
                     subtask: Sub-Tasks
                     collaborators: Collaborators
+                    related_issues: Related Issues
+                link:
+                    widget.title: Link to %code%
 
             importexport:
                 import: Import Issues
@@ -76,6 +82,7 @@ oroacademic:
                 widget.title: Create issue for %username%
 
             menu:
+                all: All Issues
                 create: Create Issue
 
         issuepriority:

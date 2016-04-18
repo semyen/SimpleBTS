@@ -1,2 +1,2 @@
 bundles:
-- { name: OroAcademic\Bundle\SimpleBTSBundle\OroAcademicSimpleBTSBundle}
+- { name: OroAcademic\Bundle\SimpleBTSBundle\OroAcademicSimpleBTSBundle }

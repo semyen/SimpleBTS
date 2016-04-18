@@ -8,6 +8,11 @@ placeholders:
             oro_academic_sbts_user_issue_create_button:
                 order: 300
 
+    view_navButtons_before:
+        items:
+            oro_academic_sbts_user_issue_link_button:
+                order: 100
+
 items:
     oro_academic_sbts_user_issue_grid:
         template: OroAcademicSimpleBTSBundle:Issue:userIssues.html.twig
@@ -15,6 +20,11 @@ items:
         acl: oro_academic_sbts_issue_view
 
     oro_academic_sbts_user_issue_create_button:
-        template: OroAcademicSimpleBTSBundle:Issue:createIssueButton.html.twig
+        template: OroAcademicSimpleBTSBundle:Issue:Button/create.html.twig
         applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)'
+        acl: oro_academic_sbts_issue_create
+
+    oro_academic_sbts_user_issue_link_button:
+        template: OroAcademicSimpleBTSBundle:Issue:Button/link.html.twig
+        applicable: '@oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_academic_sbts.entity.issue.class%)'
         acl: oro_academic_sbts_issue_create

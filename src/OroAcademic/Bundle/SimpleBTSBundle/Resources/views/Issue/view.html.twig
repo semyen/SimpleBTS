@@ -126,6 +126,16 @@
         }]) %}
     {% endif %}
 
+    {% if entity.isStory() %}
+        {% set dataBlocks = dataBlocks|merge([{
+            'title': 'oroacademic.simplebts.issue.view.block.related_issues'|trans,
+            'class': 'active',
+            'subblocks': [
+                {'data' : [dataGrid.renderGrid('oro_academic_sbts_related_issues_grid_datagrid', {'issueId': entity.id})] }
+            ]
+        }]) %}
+    {% endif %}
+
     {% set dataBlocks = dataBlocks|merge([{
         'title': 'oroacademic.simplebts.issue.view.block.collaborators'|trans,
         'class': 'active',

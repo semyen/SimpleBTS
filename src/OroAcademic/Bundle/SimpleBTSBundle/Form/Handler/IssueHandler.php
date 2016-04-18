@@ -5,9 +5,7 @@ namespace OroAcademic\Bundle\SimpleBTSBundle\Form\Handler;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
-
 use Oro\Bundle\EntityBundle\Tools\EntityRoutingHelper;
 use Oro\Bundle\FormBundle\Utils\FormUtils;
 use Oro\Bundle\TagBundle\Entity\TagManager;

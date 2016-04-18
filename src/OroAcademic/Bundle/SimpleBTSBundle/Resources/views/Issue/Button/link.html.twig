@@ -1,0 +1,24 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{{ UI.clientButton({
+    'dataUrl': path('oro_academic_sbts_issue_link', {id: entity.id}),
+    'aCss': 'no-hash',
+    'dataId': entity.id,
+    'label': 'oroacademic.simplebts.issue.view.button.link'|trans,
+    'title': 'oroacademic.simplebts.issue.view.button.link'|trans,
+    'widget' : {
+        'type' : 'dialog',
+        'multiple' : false,
+        'reload-grid-name' : 'oro_academic_sbts_related_issues_grid_datagrid',
+        'options' : {
+            'alias': 'link-issue-dialog',
+            'dialogOptions' : {
+                'title' : 'oroacademic.simplebts.issue.view.link.widget.title'|trans({'%code%': entity.code}),
+                'allowMaximize': false,
+                'allowMinimize': false,
+                'dblclick': 'maximize',
+                'maximizedHeightDecreaseBy': 'minimize-bar',
+                'width': 600
+            }
+        }
+    }
+}) }}

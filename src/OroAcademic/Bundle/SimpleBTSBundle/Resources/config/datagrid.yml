@@ -20,6 +20,7 @@ datagrid:
                     - CONCAT(assignee.firstName, CONCAT(' ', assignee.lastName)) as assigneeName
                     - issue.createdAt
                     - issue.updatedAt
+                    - COUNT(DISTINCT subtask.id) as subtasksCount
                 from:
                     - { table: '%oro_academic_sbts.entity.issue.class%', alias: issue }
                 join:
@@ -29,6 +30,7 @@ datagrid:
                         - { join: issue.reporter, alias: reporter }
                         - { join: issue.assignee, alias: assignee }
                         - { join: issue.workflowStep, alias: workflowStep }
+                        - { join: issue.children, alias: subtask }
                 groupBy: issue.id
         columns:
             code:
@@ -62,6 +64,8 @@ datagrid:
             updatedAt:
                 label:         oro.ui.updated_at
                 frontend_type: datetime
+            subtasksCount:
+                renderable:    false
         sorters:
             columns:
                 code:
@@ -69,7 +73,7 @@ datagrid:
                 summary:
                     data_name: issue.summary
                 type:
-                    data_name: issue.getType
+                    data_name: issue.type
                 priorityLabel:
                     data_name: priority.priorityOrder
                 workflowStepLabel:
@@ -298,3 +302,71 @@ datagrid:
                 pageSize:
                     items: [10]
                     default_per_page: 10
+
+    oro_academic_sbts_related_issues_grid_datagrid:
+        source:
+            type: orm
+            acl_resource: oro_academic_sbts_issue_view
+            query:
+                select:
+                    - issue.id
+                    - relatedIssue.id AS linkedId
+                    - relatedIssue.code
+                    - relatedIssue.summary
+                    - relatedIssue.type
+                    - relatedIssuePriority.label as priorityLabel
+                    - relatedIssueWorkflowStep.label as workflowStepLabel
+                from:
+                    - { table: '%oro_academic_sbts.entity.issue.class%', alias: issue }
+                join:
+                    inner:
+                        - { join: issue.relatedIssues, alias: relatedIssue }
+                    left:
+                        - { join: relatedIssue.priority, alias: relatedIssuePriority }
+                        - { join: relatedIssue.workflowStep, alias: relatedIssueWorkflowStep }
+                where:
+                    and:
+                        - issue.id = :issueId
+                orderBy:
+                    - column: relatedIssue.id
+                      dir: asc
+            bind_parameters:
+                - issueId
+        columns:
+            code:
+                label:         oroacademic.simplebts.issue.code.label
+            summary:
+                label:         oroacademic.simplebts.issue.summary.label
+            typeLabel:
+                label:         oroacademic.simplebts.issue.type.label
+            priorityLabel:
+                label:         oroacademic.simplebts.issue.priority.label
+            workflowStepLabel:
+                label:         oroacademic.simplebts.issue.workflow_step.label
+        properties:
+            id: ~
+            linkedId: ~
+            view_link:
+                type:       url
+                route:      oro_academic_sbts_issue_view
+                params:     [ id ]
+            unlink_link:
+                type:       url
+                route:      oro_academic_sbts_issue_unlink
+                params:
+                     - linkedId
+                     - id
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                link:          view_link
+                rowAction:     true
+                icon:          eye-open
+                acl_resource:  oro_academic_sbts_issue_view
+            unlink:
+                type:          unlink
+                label:         oroacademic.simplebts.issue.button.unlink
+                link:          unlink_link
+                icon:          eraser
+                acl_resource:  oro_academic_sbts_issue_create

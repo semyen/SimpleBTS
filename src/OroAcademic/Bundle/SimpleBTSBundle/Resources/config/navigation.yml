@@ -13,7 +13,7 @@ oro_menu_config:
                 position: 10
                 icon: icon-puzzle-piece
         issue_index:
-            label: 'oroacademic.simplebts.issue.plural.label'
+            label: 'oroacademic.simplebts.issue.menu.all'
             route: 'oro_academic_sbts_issue_index'
             extras:
                 position: 10

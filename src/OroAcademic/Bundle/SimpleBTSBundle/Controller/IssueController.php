@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class IssueController extends Controller
 {
@@ -157,6 +159,41 @@ class IssueController extends Controller
     }
 
     /**
+     * @Route("/link/{id}", name="oro_academic_sbts_issue_link", requirements={"id"="\d+"})
+     * @Template("OroAcademicSimpleBTSBundle:Issue\widget:link.html.twig")
+     * @param Issue $issue
+     * @param Request $request
+     * @return array
+     * @AclAncestor("oro_academic_sbts_issue_create")
+     */
+    public function linkAction(Issue $issue, Request $request)
+    {
+        $formAction = $request->getUri();
+
+        return $this->link($issue, $formAction);
+    }
+
+    /**
+     * @Route(
+     *     "/unlink/{id}/from/{linkedId}",
+     *     name="oro_academic_sbts_issue_unlink",
+     *     requirements={"id"="\d+", "linkedId"="\d+"}
+     * )
+     * @param Issue $issue
+     * @param Issue $relatedIssue
+     * @ParamConverter("issue", class="OroAcademicSimpleBTSBundle:Issue", options={"id" = "id"})
+     * @ParamConverter("relatedIssue", class="OroAcademicSimpleBTSBundle:Issue", options={"id" = "linkedId"})
+     * @return Response
+     * @AclAncestor("oro_academic_sbts_issue_create")
+     */
+    public function unlinkAction(Issue $issue, Issue $relatedIssue)
+    {
+        $this->unlink($issue, $relatedIssue);
+
+        return new Response();
+    }
+
+    /**
      * @param Issue $issue
      * @param string $formAction
      * @param Request $request
@@ -191,5 +228,35 @@ class IssueController extends Controller
             'form'    => $this->get('oro_academic_sbts.form.issue')->createView(),
             'formAction' => $formAction,
         );
+    }
+
+    /**
+     * @param Issue $issue
+     * @param string $formAction
+     * @return array
+     */
+    protected function link(Issue $issue, $formAction)
+    {
+        return [
+            'entity'     => $issue,
+            'form'       => $this->get('oro_academic_sbts.form.handler.link_issue')->getForm()->createView(),
+            'formAction' => $formAction,
+            'saved'      => $this->get('oro_academic_sbts.form.handler.link_issue')->process($issue) ? true : false,
+        ];
+    }
+
+    /**
+     * @param Issue $issue
+     * @param Issue $relatedIssue
+     * @return bool
+     */
+    protected function unlink(Issue $issue, Issue $relatedIssue)
+    {
+        $issue->removeRelatedIssue($relatedIssue);
+        $relatedIssue->removeRelatedIssue($issue);
+
+        $this->getDoctrine()->getEntityManager()->flush();
+
+        return true;
     }
 }
