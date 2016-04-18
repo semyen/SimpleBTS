@@ -9,6 +9,5 @@ workflows:
         label: 'Issue Workflow'
         entity: OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue
         entity_attribute: issue
-        is_system: false
         start_step: open
         steps_display_ordered: true

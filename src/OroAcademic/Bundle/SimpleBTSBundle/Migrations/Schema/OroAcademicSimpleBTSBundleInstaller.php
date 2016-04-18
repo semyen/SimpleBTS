@@ -1,6 +1,6 @@
 <?php
 
-namespace OroAcademic\Bundle\AccountBundle\Migrations\Schema;
+namespace OroAcademic\Bundle\SimpleBTSBundle\Migrations\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Installation;

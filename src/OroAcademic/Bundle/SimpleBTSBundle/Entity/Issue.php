@@ -36,10 +36,13 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *              "enabled"=true
  *          },
  *          "workflow"={
- *              "active_workflow"="issue_workflow"
+ *              "active_workflow"="simple_bts_issue_workflow"
  *          },
  *          "security"={
  *              "type"="ACL"
+ *          },
+ *          "dataaudit"={
+ *              "auditable"=true
  *          }
  *      }
  * )
@@ -535,11 +538,10 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * Set priority
      *
-     * @param string $priority
-     *
+     * @param IssuePriority $priority
      * @return Issue
      */
-    public function setPriority($priority)
+    public function setPriority(IssuePriority $priority)
     {
         $this->priority = $priority;
 
@@ -549,7 +551,7 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * Get priority
      *
-     * @return string
+     * @return IssuePriority
      */
     public function getPriority()
     {

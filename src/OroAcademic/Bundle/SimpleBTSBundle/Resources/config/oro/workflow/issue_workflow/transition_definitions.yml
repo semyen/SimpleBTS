@@ -4,9 +4,7 @@ workflows:
             open_definition: ~
             start_progress_definition: ~
             stop_progress_definition: ~
-            resolve_definition:
-                conditions:
-                    @not_blank: [$resolution]
+            resolve_definition: ~
             reopen_definition:
                 post_actions:
                     - @assign_value: [$resolution, ~]

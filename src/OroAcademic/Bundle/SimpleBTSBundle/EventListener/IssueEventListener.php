@@ -38,7 +38,9 @@ class IssueEventListener
     {
         foreach ($event->getEntityManager()->getUnitOfWork()->getScheduledEntityInsertions() as $entity) {
             if (($entity instanceof Issue) && (empty($entity->getId()))) {
-                $this->issues[] = $entity;
+                if (strpos($entity->getCode(), '-') === false) {
+                    $this->issues[] = $entity;
+                }
             }
         }
     }
@@ -47,14 +49,19 @@ class IssueEventListener
     {
         if (!$this->busy && !empty($this->issues)) {
             foreach ($this->issues as $issue) {
-                $issue->setCode($issue->getOrganization()->getName() . '-' . $issue->getId());
-                $issue->setReporter($this->container->get('security.token_storage')->getToken()->getUser());
-                //OroEntityManager doesn't have removeEventListener method.
-                //$event->getEntityManager()->removeEventListener('onFlush', $this);
-                $this->busy = true;
-                $event->getEntityManager()->flush($issue);
-                //$event->getEntityManager()->addEventListener('onFlush', $this);
-                $this->busy = false;
+                if (strpos($issue->getCode(), '-') === false) {
+                    $issue->setCode($issue->getOrganization()->getName() . '-' . $issue->getId());
+                    if (!empty($this->container->get('security.token_storage')->getToken())) {
+                        $issue->setReporter($this->container->get('security.token_storage')->getToken()->getUser());
+                    }
+                    //OroEntityManager doesn't have removeEventListener method.
+                    //$event->getEntityManager()->removeEventListener('onFlush', $this);
+                    $this->busy = true;
+                    $event->getEntityManager()->persist($issue);
+                    $event->getEntityManager()->flush($issue);
+                    //$event->getEntityManager()->addEventListener('onFlush', $this);
+                    $this->busy = false;
+                }
             }
         }
     }
