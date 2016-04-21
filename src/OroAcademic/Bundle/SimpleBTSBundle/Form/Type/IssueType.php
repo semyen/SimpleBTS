@@ -92,6 +92,7 @@ class IssueType extends AbstractType
                 'tags',
                 'oro_tag_select',
                 [
+                    'required' => false,
                     'label' => 'oro.tag.entity_plural_label',
                 ]
             );

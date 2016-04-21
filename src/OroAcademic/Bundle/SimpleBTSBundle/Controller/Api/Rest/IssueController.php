@@ -15,6 +15,7 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Oro\Bundle\AddressBundle\Utils\AddressApiUtils;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
@@ -62,6 +63,18 @@ class IssueController extends RestController implements ClassResourceInterface
     *     description="Username of owner user"
     * )
     * @QueryParam(
+    *     name="reporterId",
+    *     requirements="\d+",
+    *     nullable=true,
+    *     description="Id of reporter user"
+    * )
+    * @QueryParam(
+    *     name="reporterUsername",
+    *     requirements=".+",
+    *     nullable=true,
+    *     description="Username of reporter user"
+    * )
+    * @QueryParam(
     *     name="assigneeId",
     *     requirements="\d+",
     *     nullable=true,
@@ -78,31 +91,37 @@ class IssueController extends RestController implements ClassResourceInterface
     *      resource=true
     * )
     * @AclAncestor("oro_academic_sbts_issue_view")
-    *
+    * @param Request $request
     * @throws \Exception
     * @return Response
     */
-    public function cgetAction()
+    public function cgetAction(Request $request)
     {
-        $page  = (int)$this->getRequest()->get('page', 1);
-        $limit = (int)$this->getRequest()->get('limit', self::ITEMS_PER_PAGE);
-
-        $dateParamFilter  = new HttpDateTimeParameterFilter();
-        $userIdFilter     = new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User');
-        $userNameFilter   = new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User', 'username');
+        $page  = (int)$request->get('page', 1);
+        $limit = (int)$request->get('limit', self::ITEMS_PER_PAGE);
 
         $filterParameters = [
-            'createdAt'        => $dateParamFilter,
-            'updatedAt'        => $dateParamFilter,
-            'ownerId'          => $userIdFilter,
-            'ownerUsername'    => $userNameFilter,
-            'assigneeId'       => $userIdFilter,
-            'assigneeUsername' => $userNameFilter,
+            'createdAt'        => new HttpDateTimeParameterFilter(),
+            'updatedAt'        => new HttpDateTimeParameterFilter(),
+            'ownerId'          => new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User'),
+            'ownerUsername'    =>
+                new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User', 'username')
+            ,
+            'reporterId'       => new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User'),
+            'reporterUsername' =>
+                new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User', 'username')
+            ,
+            'assigneeId'       => new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User'),
+            'assigneeUsername' =>
+                new IdentifierToReferenceFilter($this->getDoctrine(), 'OroUserBundle:User', 'username')
+            ,
         ];
 
-        $map              = [
+        $map = [
             'ownerId'          => 'owner',
             'ownerUsername'    => 'owner',
+            'reporterId'       => 'reporter',
+            'reporterUsername' => 'reporter',
             'assigneeId'       => 'assignee',
             'assigneeUsername' => 'assignee',
         ];
@@ -140,6 +159,7 @@ class IssueController extends RestController implements ClassResourceInterface
      * )
      * @AclAncestor("oro_academic_sbts_issue_update")
      * @return Response
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function putAction($id)
     {

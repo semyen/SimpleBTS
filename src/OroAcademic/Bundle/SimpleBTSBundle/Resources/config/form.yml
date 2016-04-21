@@ -1,10 +1,11 @@
 parameters:
     oro_academic_sbts.form.type.issue.class:           OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType
+    oro_academic_sbts.form.type.issue.api.class:       OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueApiType
     oro_academic_sbts.form.handler.issue.class:        OroAcademic\Bundle\SimpleBTSBundle\Form\Handler\IssueHandler
     oro_academic_sbts.form.type.link_issue.class:      OroAcademic\Bundle\SimpleBTSBundle\Form\Type\LinkIssueType
     oro_academic_sbts.form.handler.link_issue.class:   OroAcademic\Bundle\SimpleBTSBundle\Form\Handler\LinkIssueHandler
     oro_academic_sbts.form.type.select_issue.class:    OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueSelectType
-    oro_academic_sbts.issue.manager.api.class:         OroAcademic\Bundle\SimpleBTSBundle\Entity\Manager\IssueApiEntityManager
+    oro_academic_sbts.issue.manager.api.class:         Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
     symfony.form.class:                                Symfony\Component\Form\Form
 
 services:
@@ -12,6 +13,11 @@ services:
         class: '%oro_academic_sbts.form.type.issue.class%'
         tags:
             - { name: form.type, alias: oro_academic_sbts_issue }
+
+    oro_academic_sbts.form.type.issue.api:
+        class: '%oro_academic_sbts.form.type.issue.api.class%'
+        tags:
+            - { name: form.type, alias: oro_academic_sbts_issue_api }
 
     oro_academic_sbts.form.issue:
         class: '%symfony.form.class%'
@@ -36,7 +42,7 @@ services:
         class: '%symfony.form.class%'
         factory: ["@form.factory", createNamed]
         arguments:
-            - oro_academic_sbts_issue_form_api
+            - ~
             - oro_academic_sbts_issue_api
 
     oro_academic_sbts.issue.manager.api:
