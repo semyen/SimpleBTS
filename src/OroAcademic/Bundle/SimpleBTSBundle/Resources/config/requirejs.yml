@@ -2,5 +2,6 @@ config:
     paths:
         'oro_academic_sbts/js/app/component/create-issue': 'bundles/oroacademicsimplebts/js/app/component/create-issue.js'
         'oro_academic_sbts/js/app/component/link-issue': 'bundles/oroacademicsimplebts/js/app/component/link-issue.js'
+        'oro_academic_sbts/js/app/component/refresh-collaborators': 'bundles/oroacademicsimplebts/js/app/component/refresh-collaborators.js'
         'oro/datagrid/action/issue-delete-action': 'bundles/oroacademicsimplebts/js/datagrid/action/issue-delete-action.js'
         'oro/datagrid/action/unlink-action': 'bundles/oroacademicsimplebts/js/datagrid/action/unlink-action.js'
