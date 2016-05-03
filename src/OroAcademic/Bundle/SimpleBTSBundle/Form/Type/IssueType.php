@@ -88,14 +88,14 @@ class IssueType extends AbstractType
                     'label' => 'oroacademic.simplebts.issue.owner.label',
                 ]
             )
-            ->add(
+            /*->add(
                 'tags',
                 'oro_tag_select',
                 [
                     'required' => false,
                     'label' => 'oro.tag.entity_plural_label',
                 ]
-            );
+            )*/;
         ;
     }
 

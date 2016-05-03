@@ -1,7 +1,7 @@
 datagrid:
     oro_academic_sbts_issue_datagrid:
         #scope: oro_academic_sbts
-        entity_class: '%oro_academic_sbts.entity.issue.class%'
+        extended_entity_name: '%oro_academic_sbts.entity.issue.class%'
         source:
             type: orm
             acl_resource: oro_academic_sbts_issue_view
@@ -32,6 +32,8 @@ datagrid:
                         - { join: issue.workflowStep, alias: workflowStep }
                         - { join: issue.children, alias: subtask }
                 groupBy: issue.id
+        inline_editing:
+            enable: true
         columns:
             code:
                 label:         oroacademic.simplebts.issue.code.label
@@ -342,7 +344,7 @@ datagrid:
             priorityLabel:
                 label:         oroacademic.simplebts.issue.priority.label
             workflowStepLabel:
-                label:         oroacademic.simplebts.issue.workflow_step.label
+                label:         oroacademic.simplebts.issue.workflow_status.label
         properties:
             id: ~
             linkedId: ~

@@ -6,7 +6,6 @@ OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue:
         name: oro_academic_sbts_issue_view
         parameters:
             id: id
-    mode: normal
     title_fields: [code, summary]
     fields:
         -
@@ -70,9 +69,13 @@ OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue:
                     target_type: text
                     target_fields: [username, all_data]
                 -
-                    name: id
-                    target_type: integer
-                    target_fields: [reporter]
+                    name: firstName
+                    target_type: text
+                    target_fields: [firstName, all_data]
+                -
+                    name: lastName
+                    target_type: text
+                    target_fields: [lastName, all_data]
         -
             name: assignee
             relation_type: many-to-one
@@ -82,6 +85,10 @@ OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue:
                     target_type: text
                     target_fields: [username, all_data]
                 -
-                    name: id
-                    target_type: integer
-                    target_fields: [assignee]
+                    name: firstName
+                    target_type: text
+                    target_fields: [firstName, all_data]
+                -
+                    name: lastName
+                    target_type: text
+                    target_fields: [lastName, all_data]

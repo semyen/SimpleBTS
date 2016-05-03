@@ -14,14 +14,37 @@
     {{ UI.cancelButton(path('oro_academic_sbts_issue_index')) }}
 {% endblock navButtons %}
 
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'oroacademic.simplebts.issue.plural.label'|trans }] %}
+
+        {% if issue.parent %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': issue.parent.code}]) %}
+        {% endif %}
+
+        {% if issue.code is not empty and issue.summary is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': issue.code}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
+
 {% block pageHeader %}
     {% if issue.id %}
         {% set breadcrumbs = {
-            'entity': issue,
-            'indexPath': path('oro_academic_sbts_issue_index'),
-            'indexLabel': 'oroacademic.simplebts.issue.plural.label'|trans,
-            'entityTitle': issue.code
+        'entity': issue,
+        'indexPath': path('oro_academic_sbts_issue_index'),
+        'indexLabel': 'oroacademic.simplebts.issue.plural.label'|trans,
+        'entityTitle': issue.code
         } %}
+        {% if issue.parent %}
+            {% set breadcrumbs = breadcrumbs|merge({'additional': [{
+            'entity': issue.parent,
+            'indexPath': path('oro_academic_sbts_issue_view', { 'id': issue.parent.id }),
+            'indexLabel': issue.parent.code
+            }]}) %}
+        {% endif %}
+
         {{ parent() }}
     {% else %}
         {% set title = 'oroacademic.simplebts.issue.form.title.create'|trans({'%issueName%': 'oroacademic.simplebts.issue.label'|trans}) %}
@@ -45,12 +68,6 @@
                     form_row(form.priority),
                     form_row(form.assignee),
                     form_row(form.description)
-                ]
-            },
-            {
-                'title': 'Tags',
-                'data': [
-                    form_row(form.tags)
                 ]
             }
         ]

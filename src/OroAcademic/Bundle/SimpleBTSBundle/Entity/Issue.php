@@ -541,7 +541,7 @@ class Issue extends ExtendIssue implements Taggable
      * @param IssuePriority $priority
      * @return Issue
      */
-    public function setPriority(IssuePriority $priority)
+    public function setPriority($priority)
     {
         $this->priority = $priority;
 

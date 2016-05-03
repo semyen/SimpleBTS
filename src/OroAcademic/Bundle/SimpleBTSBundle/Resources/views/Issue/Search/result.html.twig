@@ -15,10 +15,11 @@
 {% set entityInfo = [
     {'title': 'oroacademic.simplebts.issue.type.label'|trans, 'value': entity.type ? entity.type : 'N/A'},
     {'title': 'oroacademic.simplebts.issue.priority.label'|trans, 'value': entity.priority ? entity.priority.label : 'N/A'},
-    {'title': 'oroacademic.simplebts.issue.workflow_step.label'|trans, 'value': entity.workflowStep ? entity.workflowStep.label : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.workflow_status.label'|trans, 'value': entity.workflowStep ? entity.workflowStep.label : 'N/A'},
     {'title': 'oroacademic.simplebts.issue.resolution.label'|trans, 'value': entity.resolution ? entity.resolution.label : 'N/A'},
-    {'title': 'oroacademic.simplebts.issue.reporter.label'|trans, 'value': entity.reporter ? entity.reporter : 'N/A'},
-    {'title': 'oroacademic.simplebts.issue.assignee.label'|trans, 'value': entity.assignee ? entity.assignee : 'N/A'},
-    {'title': 'oro.ui.created_at'|trans, 'value': entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.reporter.label'|trans, 'value': entity.reporter ? entity.reporter.firstName ~ ' ' ~ entity.reporter.lastName : 'N/A'},
+    {'title': 'oroacademic.simplebts.issue.assignee.label'|trans, 'value': entity.assignee ? entity.assignee.firstName ~ ' ' ~ entity.assignee.lastName : 'N/A'},
+
+{'title': 'oro.ui.created_at'|trans, 'value': entity.createdAt ? entity.createdAt|oro_format_datetime : 'N/A'},
     {'title': 'oro.ui.updated_at'|trans, 'value': entity.updatedAt ? entity.updatedAt|oro_format_datetime : 'N/A'},
 ] %}

@@ -1,4 +1,5 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
+
 {% import 'OroUIBundle::macros.html.twig' as UI %}
 {% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 {% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
@@ -40,6 +41,21 @@
     {% endif %}
 {% endblock navButtons %}
 
+{% block breadcrumb %}
+    {% if breadcrumbs is not defined %}
+        {% set breadcrumbs = [{'label': 'oroacademic.simplebts.issue.plural.label'|trans }] %}
+
+        {% if entity.parent %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.parent.code}]) %}
+        {% endif %}
+
+        {% if entity.code is not empty and entity.summary is not empty %}
+            {% set breadcrumbs = breadcrumbs|merge([{'label': entity.code}]) %}
+        {% endif %}
+    {% endif %}
+    {% include 'OroNavigationBundle:Menu:breadcrumbs.html.twig' %}
+{% endblock breadcrumb %}
+
 {% block pageHeader %}
     {% set breadcrumbs = {
         'entity': entity,
@@ -69,7 +85,7 @@
                     {{ UI.renderProperty('oroacademic.simplebts.issue.type.label'|trans, '') }}
                 {% endif %}
                 {{ UI.renderProperty('oroacademic.simplebts.issue.priority.label'|trans, entity.priority) }}
-                {{ UI.renderProperty('oroacademic.simplebts.issue.workflow_step.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
+                {{ UI.renderProperty('oroacademic.simplebts.issue.workflow_status.label'|trans, entity.workflowStep ? entity.workflowStep.label : 'N/A') }}
                 {{ UI.renderProperty('oroacademic.simplebts.issue.resolution.label'|trans, entity.resolution) }}
 
                 {%- set reporterData -%}

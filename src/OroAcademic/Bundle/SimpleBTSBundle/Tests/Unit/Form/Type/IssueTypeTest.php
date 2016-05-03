@@ -31,7 +31,7 @@ class IssueTypeTest extends \PHPUnit_Framework_TestCase
         ;
 
         $builder
-            ->expects($this->exactly(8))
+            ->expects($this->exactly(7))
             ->method('add')
             ->will($this->returnSelf());
         ;
