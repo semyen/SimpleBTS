@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManager;
 
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -79,7 +78,7 @@ class LoadIssueData extends AbstractFixture implements ContainerAwareInterface, 
         $issue->setCode($code);
         $issue->setSummary('Test  Summary #' . uniqid());
         $issue->setDescription('Test Description #' . uniqid());
-        $issue->setType(IssueType::TASK);
+        $issue->setType(Issue::TASK);
         $issue->setPriority($priority);
         $issue->setReporter($user);
         $issue->setOwner($user);

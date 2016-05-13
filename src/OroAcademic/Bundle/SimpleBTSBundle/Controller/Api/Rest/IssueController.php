@@ -24,8 +24,6 @@ use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 /**
  * @RouteResource("api")
  * @NamePrefix("oro_academic_sbts_issue_")
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class IssueController extends RestController implements ClassResourceInterface
 {
@@ -159,7 +157,6 @@ class IssueController extends RestController implements ClassResourceInterface
      * )
      * @AclAncestor("oro_academic_sbts_issue_update")
      * @return Response
-     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function putAction($id)
     {

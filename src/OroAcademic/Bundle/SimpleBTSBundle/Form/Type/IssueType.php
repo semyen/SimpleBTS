@@ -3,6 +3,7 @@
 namespace OroAcademic\Bundle\SimpleBTSBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,11 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class IssueType extends AbstractType
 {
-    const BUG = 'bug';
-    const STORY = 'story';
-    const SUB_TASK = 'sub_task';
-    const TASK = 'task';
-
     /**
      * {@inheritdoc}
      */
@@ -50,10 +46,10 @@ class IssueType extends AbstractType
             ->add('type', 'choice', [
                 'label'       => 'oroacademic.simplebts.issue.type.label',
                 'choices' => [
-                    self::BUG => 'oroacademic.simplebts.issue.form.issue_type.bug.label',
-                    self::SUB_TASK => 'oroacademic.simplebts.issue.form.issue_type.sub_task.label',
-                    self::TASK => 'oroacademic.simplebts.issue.form.issue_type.task.label',
-                    self::STORY => 'oroacademic.simplebts.issue.form.issue_type.story.label',
+                    Issue::BUG => 'oroacademic.simplebts.issue.form.issue_type.bug.label',
+                    Issue::SUB_TASK => 'oroacademic.simplebts.issue.form.issue_type.sub_task.label',
+                    Issue::TASK => 'oroacademic.simplebts.issue.form.issue_type.task.label',
+                    Issue::STORY => 'oroacademic.simplebts.issue.form.issue_type.story.label',
                 ],
                 'constraints' => [
                     new Assert\NotBlank()

@@ -4,8 +4,8 @@ namespace OroAcademic\Bundle\SimpleBTSBundle\Tests\Functional\Controller;
 
 use Doctrine\ORM\EntityManager;
 
+use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
@@ -50,7 +50,7 @@ class IssueControllerTest extends WebTestCase
         $form = $crawler->filter('form[name=oro_academic_sbts_issue_form]')->filter('button[type=submit]')->form();
         $form['oro_academic_sbts_issue_form[summary]'] = 'New issue';
         $form['oro_academic_sbts_issue_form[description]'] = 'New description';
-        $form['oro_academic_sbts_issue_form[type]'] = IssueType::STORY;
+        $form['oro_academic_sbts_issue_form[type]'] = Issue::STORY;
         $form['oro_academic_sbts_issue_form[priority]'] = $priority->getName();
         $form['oro_academic_sbts_issue_form[owner]'] = '1';
 
@@ -100,7 +100,7 @@ class IssueControllerTest extends WebTestCase
         $form['oro_academic_sbts_issue_form[summary]'] = 'Test Sub-Task #' . uniqid();
         $form['oro_academic_sbts_issue_form[description]'] = 'Test Description #' . uniqid();
         $form['oro_academic_sbts_issue_form[priority]'] = $priority->getName();
-        $form['oro_academic_sbts_issue_form[type]'] = IssueType::SUB_TASK;
+        $form['oro_academic_sbts_issue_form[type]'] = Issue::SUB_TASK;
         $form['oro_academic_sbts_issue_form[owner]'] = '1';
 
         $this->client->followRedirects(true);

@@ -3,7 +3,6 @@
 namespace OroAcademic\Bundle\SimpleBTSBundle\Controller;
 
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -98,7 +97,7 @@ class IssueController extends Controller
 
             if (!empty($parentIssue) && $parentIssue->isStory()) {
                 $issue->setParent($parentIssue);
-                $issue->setType(IssueType::SUB_TASK);
+                $issue->setType(Issue::SUB_TASK);
             } else {
                 if (empty($parentIssue)) {
                     $this->get('session')->getFlashBag()->add(

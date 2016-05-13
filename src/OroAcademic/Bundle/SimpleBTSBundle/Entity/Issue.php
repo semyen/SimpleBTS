@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\TagBundle\Entity\Taggable;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 use OroAcademic\Bundle\SimpleBTSBundle\Model\ExtendIssue;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowItem;
 use Oro\Bundle\WorkflowBundle\Entity\WorkflowStep;
@@ -54,6 +53,11 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  */
 class Issue extends ExtendIssue implements Taggable
 {
+    const BUG = 'bug';
+    const STORY = 'story';
+    const SUB_TASK = 'sub_task';
+    const TASK = 'task';
+
     /**
      * @var integer
      *
@@ -433,6 +437,18 @@ class Issue extends ExtendIssue implements Taggable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @return Issue
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -913,7 +929,7 @@ class Issue extends ExtendIssue implements Taggable
      */
     public function isStory()
     {
-        if (!empty($this->getType()) && ($this->getType() == IssueType::STORY)) {
+        if (!empty($this->getType()) && ($this->getType() == Issue::STORY)) {
             return true;
         }
 
@@ -925,7 +941,7 @@ class Issue extends ExtendIssue implements Taggable
      */
     public function isSubTask()
     {
-        if (!empty($this->getType()) && ($this->getType() == IssueType::SUB_TASK)) {
+        if (!empty($this->getType()) && ($this->getType() == Issue::SUB_TASK)) {
             return true;
         }
 

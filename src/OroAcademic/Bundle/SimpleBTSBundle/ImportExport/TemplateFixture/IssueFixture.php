@@ -7,7 +7,6 @@ use Oro\Bundle\ImportExportBundle\TemplateFixture\TemplateFixtureInterface;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssueResolution;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 
 class IssueFixture extends AbstractTemplateRepository implements TemplateFixtureInterface
 {
@@ -56,7 +55,7 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
                     ->setCode('ORO-1')
                     ->setSummary('Bug Summary')
                     ->setDescription('Bug Description')
-                    ->setType(IssueType::BUG)
+                    ->setType(Issue::BUG)
                     ->setPriority($issuePriorityRepo->getEntity(IssuePriority::MINOR))
                     ->setResolution($issueResolutionRepo->getEntity(IssueResolution::FIXED))
                     ->setReporter($userRepo->getEntity('John Doo'))
@@ -72,7 +71,7 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
                     ->setCode('ORO-2')
                     ->setSummary('Story Summary')
                     ->setDescription('Story Description')
-                    ->setType(IssueType::STORY)
+                    ->setType(Issue::STORY)
                     ->setPriority($issuePriorityRepo->getEntity(IssuePriority::CRITICAL))
                     ->setResolution(null)
                     ->setReporter($userRepo->getEntity('John Doo'))
@@ -88,7 +87,7 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
                     ->setCode('ORO-3')
                     ->setSummary('Sub-Task Summary')
                     ->setDescription('Sub-Task Description')
-                    ->setType(IssueType::SUB_TASK)
+                    ->setType(Issue::SUB_TASK)
                     ->setPriority($issuePriorityRepo->getEntity(IssuePriority::MINOR))
                     ->setResolution($issueResolutionRepo->getEntity(IssueResolution::DONE))
                     ->setReporter($userRepo->getEntity('John Doo'))
@@ -104,7 +103,7 @@ class IssueFixture extends AbstractTemplateRepository implements TemplateFixture
                     ->setCode('ORO-4')
                     ->setSummary('Task Summary')
                     ->setDescription('Task Description')
-                    ->setType(IssueType::TASK)
+                    ->setType(Issue::TASK)
                     ->setPriority($issuePriorityRepo->getEntity(IssuePriority::MINOR))
                     ->setResolution($issueResolutionRepo->getEntity(IssueResolution::DONE))
                     ->setReporter($userRepo->getEntity('John Doo'))

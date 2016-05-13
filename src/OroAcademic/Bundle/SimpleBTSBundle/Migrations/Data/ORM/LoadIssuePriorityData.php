@@ -27,16 +27,15 @@ class LoadIssuePriorityData extends AbstractTranslatableEntityFixture
 
     /**
      * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function loadEntities(ObjectManager $manager)
     {
-        $issuePriorityRepository = $manager->getRepository('OroAcademicSimpleBTSBundle:IssuePriority');
+        $priorityRepository = $manager->getRepository('OroAcademicSimpleBTSBundle:IssuePriority');
         $translationLocales = $this->getTranslationLocales();
 
         foreach ($translationLocales as $locale) {
             foreach ($this->issuePriorities as $order => $priorityName) {
-                $issuePriority = $issuePriorityRepository->findOneBy(['name' => $priorityName]);
+                $issuePriority = $priorityRepository->findOneBy(['name' => $priorityName]);
                 if (!$issuePriority) {
                     $issuePriority = new IssuePriority($priorityName);
                 }

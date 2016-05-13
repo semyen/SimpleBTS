@@ -5,13 +5,32 @@ namespace OroAcademic\Bundle\SimpleBTSBundle\Migrations\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
+use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
+use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
+use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
-class OroAcademicSimpleBTSBundleInstaller implements Installation
+class OroAcademicSimpleBTSBundleInstaller implements
+    Installation,
+    NoteExtensionAwareInterface,
+    ActivityExtensionAwareInterface
 {
+    /** @var NoteExtension */
+    protected $noteExtension;
+
+    /** @var ActivityExtension */
+    protected $activityExtension;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setNoteExtension(NoteExtension $noteExtension)
+    {
+        $this->noteExtension = $noteExtension;
+    }
+
     /**
      * @inheritdoc
      */
@@ -22,7 +41,6 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
 
     /**
      * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function up(Schema $schema, QueryBag $queries)
     {
@@ -39,6 +57,9 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
         $this->addOroIssueForeignKeys($schema);
         $this->addOroIssueCollaboratorsForeignKeys($schema);
         $this->addOroIssueRelationForeignKeys($schema);
+
+        $this->noteExtension->addNoteAssociation($schema, 'oro_issue');
+        self::addActivityAssociations($schema, $this->activityExtension);
     }
 
     /**
@@ -279,5 +300,24 @@ class OroAcademicSimpleBTSBundleInstaller implements Installation
             ['id'],
             ['onDelete' => null, 'onUpdate' => null]
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setActivityExtension(ActivityExtension $activityExtension)
+    {
+        $this->activityExtension = $activityExtension;
+    }
+
+    /**
+     * Enables Email activity for User entity
+     *
+     * @param Schema            $schema
+     * @param ActivityExtension $activityExtension
+     */
+    public static function addActivityAssociations(Schema $schema, ActivityExtension $activityExtension)
+    {
+        $activityExtension->addActivityAssociation($schema, 'oro_email', 'oro_issue', true);
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
+use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssueResolution;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,6 +20,11 @@ use Oro\Bundle\WorkflowBundle\Model\WorkflowManager;
  */
 class LoadIssueData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
+    const START_PROGRESS = 'start_progress';
+    const STOP_PROGRESS = 'stop_progress';
+    const RESOLVE = 'resolve';
+    const REOPEN = 'reopen';
+    const CLOSE = 'close';
     /**
      * @var WorkflowManager
      */
@@ -28,25 +33,37 @@ class LoadIssueData extends AbstractFixture implements DependentFixtureInterface
     /**
      * @var array
      */
-    private $types = ['bug', 'story', 'sub_task', 'task'];
+    private $types = [Issue::BUG, Issue::STORY, Issue::SUB_TASK, Issue::TASK];
 
     /**
      * @var array
      */
-    private $priorities = ['blocker', 'critical', 'major', 'minor', 'trivial'];
-
-    /**
-     * @var array
-     */
-    private $resolutions = [
-        'fixed', 'wont_fix', 'duplicate', 'incomplete', 'cannot_reproduce', 'done', 'wont_do', 'rejected'
+    private $priorities = [
+        IssuePriority::BLOCKER,
+        IssuePriority::CRITICAL,
+        IssuePriority::MAJOR,
+        IssuePriority::MINOR,
+        IssuePriority::TRIVIAL
     ];
 
     /**
      * @var array
      */
-    //private $workflowSteps = ['open', 'start_progress', 'resolve', 'reopen', 'close'];
-    private $workflowSteps = ['start_progress', 'stop_progress', 'resolve', 'reopen', 'close'];
+    private $resolutions = [
+        IssueResolution::FIXED,
+        IssueResolution::WONT_FIX,
+        IssueResolution::DUPLICATE,
+        IssueResolution::INCOMPLETE,
+        IssueResolution::CANNOT_REPRODUCE,
+        IssueResolution::DONE,
+        IssueResolution::WONT_DO,
+        IssueResolution::REJECTED
+    ];
+
+    /**
+     * @var array
+     */
+    private $workflowSteps = [self::START_PROGRESS, self::STOP_PROGRESS, self::RESOLVE, self::REOPEN, self::CLOSE];
 
     /**
      * {@inheritdoc}
@@ -74,7 +91,7 @@ class LoadIssueData extends AbstractFixture implements DependentFixtureInterface
             if (!empty($issue) && $issue->isStory()) {
                 $subTaskCount = rand(1, 5);
                 for ($j = 0; $j < $subTaskCount; $j++) {
-                    $this->createIssue($manager, IssueType::SUB_TASK, $issue);
+                    $this->createIssue($manager, Issue::SUB_TASK, $issue);
                 }
             }
         }

@@ -13,8 +13,6 @@ use Oro\Bundle\TagBundle\Form\Handler\TagHandlerInterface;
 
 /**
  * Class IssueHandler
- * @package OroAcademic\Bundle\SimpleBTSBundle\Form\Handler
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class IssueHandler implements TagHandlerInterface
 {

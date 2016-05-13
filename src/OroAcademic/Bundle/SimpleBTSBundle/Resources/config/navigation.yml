@@ -17,11 +17,13 @@ oro_menu_config:
             route: 'oro_academic_sbts_issue_index'
             extras:
                 position: 10
+                routes: ['oro_academic_sbts_issue_*']
         issue_create:
             label: 'oroacademic.simplebts.issue.menu.create'
             route: 'oro_academic_sbts_issue_create'
             extras:
                 position: 20
+                routes: ['oro_academic_sbts_issue_*']
 
     tree:
         application_menu:

@@ -34,6 +34,7 @@ oroacademic:
             workflow_step.label: Workflow Step
             workflow_status.label: Status
             assigned_to_user.label: Issues
+            button.unlink: Unlink
 
             form:
                 saved: Issue was successfully saved.

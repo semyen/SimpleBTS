@@ -3,8 +3,8 @@
 namespace OroAcademic\Bundle\SimpleBTSBundle\Tests\Functional\Controller\Api\Rest;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use OroAcademic\Bundle\SimpleBTSBundle\Entity\Issue;
 use OroAcademic\Bundle\SimpleBTSBundle\Entity\IssuePriority;
-use OroAcademic\Bundle\SimpleBTSBundle\Form\Type\IssueType;
 
 /**
  * @dbIsolation
@@ -54,7 +54,7 @@ class IssueControllerTest extends WebTestCase
         }
 
         if (!isset($this->issue['type'])) {
-            $this->issue['type'] = IssueType::STORY;
+            $this->issue['type'] = Issue::STORY;
         }
     }
 

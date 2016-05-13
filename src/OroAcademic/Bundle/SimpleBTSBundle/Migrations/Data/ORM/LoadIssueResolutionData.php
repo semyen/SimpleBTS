@@ -29,16 +29,15 @@ class LoadIssueResolutionData extends AbstractTranslatableEntityFixture
 
     /**
      * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function loadEntities(ObjectManager $manager)
     {
-        $issueResolutionRepository = $manager->getRepository('OroAcademicSimpleBTSBundle:IssueResolution');
+        $resolutionRepository = $manager->getRepository('OroAcademicSimpleBTSBundle:IssueResolution');
         $translationLocales = $this->getTranslationLocales();
 
         foreach ($translationLocales as $locale) {
             foreach ($this->issueResolutions as $resolutionName) {
-                $issueResolution = $issueResolutionRepository->findOneBy(['name' => $resolutionName]);
+                $issueResolution = $resolutionRepository->findOneBy(['name' => $resolutionName]);
                 if (!$issueResolution) {
                     $issueResolution = new IssueResolution($resolutionName);
                 }

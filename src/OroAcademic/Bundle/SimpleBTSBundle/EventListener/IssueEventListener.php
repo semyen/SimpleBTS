@@ -65,4 +65,12 @@ class IssueEventListener
             }
         }
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getIssues()
+    {
+        return $this->issues;
+    }
 }

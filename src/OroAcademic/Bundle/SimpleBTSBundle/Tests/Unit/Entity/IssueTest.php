@@ -64,7 +64,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
             ['code', 'ORO-1'],
             ['summary', 'Test Summary'],
             ['description', 'Test Description'],
-            ['type', IssueType::STORY],
+            ['type', Issue::STORY],
             ['parent', $this->getIssue()],
             ['priority', new IssuePriority()],
             ['resolution', new IssueResolution()],
@@ -122,7 +122,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     public function testIsStory()
     {
         $issue = $this->getIssue();
-        $type = IssueType::STORY;
+        $type = Issue::STORY;
 
         $issue->setType($type);
         $this->assertTrue($issue->isStory());
@@ -131,7 +131,7 @@ class IssueTest extends \PHPUnit_Framework_TestCase
     public function testIsSubTask()
     {
         $issue = $this->getIssue();
-        $type = IssueType::SUB_TASK;
+        $type = Issue::SUB_TASK;
 
         $issue->setType($type);
         $this->assertTrue($issue->isSubTask());

@@ -20,7 +20,6 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
  *          }
  *      }
  * )
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class IssueResolution
 {
