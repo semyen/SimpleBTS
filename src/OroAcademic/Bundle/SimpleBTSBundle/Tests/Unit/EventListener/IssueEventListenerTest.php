@@ -109,7 +109,10 @@ class IssueEventListenerTest extends \PHPUnit_Framework_TestCase
         $this->issueEventListener->onFlush($onFlushEventArgs);
         $this->assertNotEmpty($this->issueEventListener->getIssues());
 
-        $this->issue->setId(1);
+        $refObject = new \ReflectionObject($this->issue);
+        $refProperty = $refObject->getProperty('id');
+        $refProperty->setAccessible(true);
+        $refProperty->setValue($this->issue, 1);
 
         $this->issueEventListener->postFlush($postFlushEventArgs);
         $this->assertNotEmpty($this->issueEventListener->getIssues());

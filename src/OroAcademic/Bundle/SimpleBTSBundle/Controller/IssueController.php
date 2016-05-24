@@ -169,7 +169,12 @@ class IssueController extends Controller
     {
         $formAction = $request->getUri();
 
-        return $this->link($issue, $formAction);
+        return [
+            'entity'     => $issue,
+            'form'       => $this->get('oro_academic_sbts.form.handler.link_issue')->getForm()->createView(),
+            'formAction' => $formAction,
+            'saved'      => $this->get('oro_academic_sbts.form.handler.link_issue')->process($issue) ? true : false,
+        ];
     }
 
     /**
@@ -187,7 +192,10 @@ class IssueController extends Controller
      */
     public function unlinkAction(Issue $issue, Issue $relatedIssue)
     {
-        $this->unlink($issue, $relatedIssue);
+        $issue->removeRelatedIssue($relatedIssue);
+        $relatedIssue->removeRelatedIssue($issue);
+
+        $this->getDoctrine()->getManager()->flush();
 
         return new Response();
     }
@@ -227,35 +235,5 @@ class IssueController extends Controller
             'form'    => $this->get('oro_academic_sbts.form.issue')->createView(),
             'formAction' => $formAction,
         );
-    }
-
-    /**
-     * @param Issue $issue
-     * @param string $formAction
-     * @return array
-     */
-    protected function link(Issue $issue, $formAction)
-    {
-        return [
-            'entity'     => $issue,
-            'form'       => $this->get('oro_academic_sbts.form.handler.link_issue')->getForm()->createView(),
-            'formAction' => $formAction,
-            'saved'      => $this->get('oro_academic_sbts.form.handler.link_issue')->process($issue) ? true : false,
-        ];
-    }
-
-    /**
-     * @param Issue $issue
-     * @param Issue $relatedIssue
-     * @return bool
-     */
-    protected function unlink(Issue $issue, Issue $relatedIssue)
-    {
-        $issue->removeRelatedIssue($relatedIssue);
-        $relatedIssue->removeRelatedIssue($issue);
-
-        $this->getDoctrine()->getEntityManager()->flush();
-
-        return true;
     }
 }

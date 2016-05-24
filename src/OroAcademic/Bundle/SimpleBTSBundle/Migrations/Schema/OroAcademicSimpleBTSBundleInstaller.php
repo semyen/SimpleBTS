@@ -11,6 +11,7 @@ use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
 /**
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class OroAcademicSimpleBTSBundleInstaller implements
     Installation,

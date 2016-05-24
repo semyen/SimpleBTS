@@ -440,18 +440,6 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * Set id
-     *
-     * @return Issue
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
      * Set summary
      *
      * @param string $summary
